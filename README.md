@@ -27,7 +27,7 @@ NLP 중 텍스트 요약과 관련한 자료를 축적합니다. 지속적으로
 
 - Transformer / BERT 구조 및 학습방법 이해
 
-  최근에 나오는 대부분의 논문들은 BERT 및 BERT기반 Pre-trained model(Robert, 
+  최근에 나오는 논문들은 대부분 Transformer 기반 모델(BERT, RoBERTa 등)에 기반하고 있어 이에 대한 이해가 필요합니다.
 
 - Summarization task 분류: Extractive / Abstractive, Multi/Single document 등
 
