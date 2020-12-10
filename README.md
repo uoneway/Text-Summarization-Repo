@@ -1,5 +1,5 @@
 # Text Summarization Repo
-NLP 중 텍스트 요약과 관련한 자료를 모아두는 저장소로 계속해서 업데이트 될 예정입니다.
+NLP 중 텍스트 요약과 관련한 자료를 축적합니다. 지속적으로 업데이트 할 예정입니다.
   * [Prerequisite](#prerequisite)
   * [Resources](#resources)
     + [Must-read Papers](#must-read-papers)
