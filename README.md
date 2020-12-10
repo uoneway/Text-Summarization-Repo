@@ -1,7 +1,20 @@
 # Text Summarization Repo
 NLP 중 텍스트 요약과 관련한 자료를 모아두는 저장소로 계속해서 업데이트 될 예정입니다.
-
-[[TOC]]
+  * [Prerequisite](#prerequisite)
+  * [Resources](#resources)
+    + [Must-read Papers](#must-read-papers)
+    + [SOTA Model List](#sota-model-list)
+  * [Data & Pre-trained Model](#data---pre-trained-model)
+    + [English Data](#english-data)
+    + [Korean Data](#korean-data)
+    + [Korean Pre-trained Model](#korean-pre-trained-model)
+  * [Others](#others)
+    + [Resource](#resource)
+    + [Recommended Paper list](#recommended-paper-list)
+      - [Review](#review)
+      - [Classic](#classic)
+      - [Based on Neural Net](#based-on-neural-net)
+      - [Reference](#reference)
 
 ## Prerequisite
 
