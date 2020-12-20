@@ -5,8 +5,7 @@ NLP 중 텍스트 요약과 관련한 자료를 축적합니다. 지속적으로
     + [Must-read Papers](#must-read-papers)
     + [SOTA Model List](#sota-model-list)
   * [Data & Pre-trained Model](#data---pre-trained-model)
-    + [English Data](#english-data)
-    + [Korean Data](#korean-data)
+    + [Data&Competition](#Data&Competition)
     + [Korean Pre-trained Model](#korean-pre-trained-model)
   * [Others](#others)
     + [Resource](#resource)
@@ -18,22 +17,25 @@ NLP 중 텍스트 요약과 관련한 자료를 축적합니다. 지속적으로
 
 ## Prerequisite
 
-텍스트 요약 task를 공부하기 전에 알아두면 좋은 사전 지식들은 다음과 같습니다.
+텍스트 요약 분야를 공부하는데 있어 알아두면 좋은 사전 지식과 추천 자료 목록입니다.
 
-- NLP 기본 개념 이해하기
+- NLP 기본 개념 이해
 
   - Embedding
   - Transfer learning(Pre-training  + Fine-tunning)
 
-- Transformer / BERT 구조 및 학습방법 이해
+- Transformer/BERT 구조 및 Pre-training objective 이해
 
-  최근에 나오는 논문들은 대부분 Transformer 기반 모델(BERT, RoBERTa 등)에 기반하고 있어 이에 대한 이해가 필요합니다.
+  최근에 나오는 NLP분야 논문들의 상당수가 Transformer에 기반하여 만들어진 BERT, 그리고 이 BERT의 변형인 RoBERTa, T5 등 여러 Pre-trained model에 기반하고 있습니다. 따라서 코드 수준의 세부적 이해까지는 아니더라도 이들의 개략적 구조와  Pre-training objective에 대한 이해를 가지고 있다면 논문을 읽거나 구현하는데 있어 큰 도움이 됩니다. 
 
-- Summarization task 분류: Extractive / Abstractive, Multi/Single document 등
+  - [추천자료] [구상준(PINGPONG 블로그). Transformer - Harder, Better, Faster, Stronger: Transformer](https://blog.pingpong.us/transformer-review/)
+  - [추천자료] [이유경(KoreaUniv DSBA) . Transformer to T5 (XLNet, RoBERTa, MASS, BART, MT-DNN,T5)](https://www.youtube.com/watch?v=v7diENO2mEA)
 
-- Metric: Rouge, BLEU, Perplexity(PPL) 등
+- Summarization task 기본 개념
 
-- Summarization 논문에서 자주 쓰이는 기본 용어: Gold/Oracle summary 등 
+  - 분류: Extractive/Abstractive, Multi/Single document 등
+  - Metric: Rouge, BLEU, Perplexity(PPL) 등
+  - Summarization 논문에서 자주 쓰이는 기본 용어: Gold/Oracle summary 등 
 
 
 
@@ -44,29 +46,41 @@ NLP 중 텍스트 요약과 관련한 자료를 축적합니다. 지속적으로
 | Year | Model Name             | Paper                                                        | Keywords                                        | Code                                                 |
 | ---- | ---------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------------- |
 | 2004 | TextRank               | [Textrank: Bringing order into texts](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)<br />R. Mihalcea, P. Tarau<br />- [참고] [lovit. TextRank 를 이용한 키워드 추출과 핵심 문장 추출 (구현과 실험)](https://lovit.github.io/nlp/2019/04/30/textrank/) | gen-ext                                         | [lovit](https://github.com/lovit/textrank)           |
-| 2019 | PreSumm<br />(BertSum) | [Text Summarization with Pretrained Encoders](https://arxiv.org/pdf/1908.08345.pdf)<br/>Yang Liu,Mirella Lapata / EMNLP<br />- [참고] [이정훈(KoreaUniv DSBA) Paper Review](https://www.youtube.com/watch?v=PQk9kr9dGu0) | gen-ext/abs, <br />gen-2stage, arch-transformer | [Official](https://github.com/nlpyang/PreSumm)       |
+| 2019 | BertSum<br />(PreSumm) | [Text Summarization with Pretrained Encoders](https://arxiv.org/pdf/1908.08345.pdf)<br/>Yang Liu,Mirella Lapata / EMNLP<br />- [참고] [이정훈(KoreaUniv DSBA) Paper Review](https://www.youtube.com/watch?v=PQk9kr9dGu0) | gen-ext/abs, <br />gen-2stage, arch-transformer | [Official](https://github.com/nlpyang/PreSumm)       |
 | 2020 | MatchSum               | [Extractive Summarization as Text Matching](https://arxiv.org/abs/2004.08795)<br />Ming Zhong, Pengfei Liu, Yiran Chen, Danqing Wang, Xipeng Qiu, Xuanjing Huang / ACL<br />- [참고] [이유경(KoreaUniv DSBA) Paper Review](https://www.youtube.com/watch?v=8E2Ia4Viu94&t=1582s) | gen-ext                                         | [Official](https://github.com/maszhongming/MatchSum) |
 
 ### SOTA Model List
 
 https://paperswithcode.com/task/text-summarization
 
+https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
+
 
 
 ## Data & Pre-trained Model
 
-### English Data
+### Data&Competition
+
+참고
+
+* `w`: The number of words; `s`: The number of sentences
+  예) `1000w -> 100w; 2s` 는 평균 1000개 단어의 문서와 이에 대한 평균 100개 단어이자 2개 문장 요약문이 제공된다는 의미입니다.
+* `abs`: Abstractive summary; `ext`: Extractive summary
 
 [요약 관련 영어 데이터셋 명칭, domain, task, paper 등](http://pfliu.com/pl-summarization/summ_data.html)
 
-### Korean Data
+| English Dataset                                              | Domain                                                       | Volume                 | License                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------- | ------------------------------------------------------------ |
+| [ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)([paper](https://arxiv.org/abs/1909.01716))<br />** ACL(computational linguistics, NLP) research papers에 대해 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공*<br />4,417w -> 110w; 2s; 151w <br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | Research paper<br />(computational linguistics, NLP)         | 1,000(abs/ ext)        | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
+| [LongSumm](https://github.com/guyfe/LongSumm)<br />** NLP 및 ML 분야 Research paper에 대해 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext)를 제공*<br />-> abs(100-1,500 words); ext(30 sents / 990 words)<br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | Research paper(NLP, ML)<br />                                | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
+| [CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)<br />** NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공*<br />-> 70~100w<br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | Research paper(epilepsy, archeology, and materials engineering) | 600(abs)               | [a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 보낸 후 contract 필요 |
 
-| Dataset                                                      | Type                | Volume  | License |
-| ------------------------------------------------------------ | ------------------- | ------- | ------- |
-| [모두의 말뭉치-문서 요약 말뭉치](https://corpus.korean.go.kr/) | 뉴스                | 13,167  |         |
-| [sae4K](https://github.com/warnikchow/sae4k)                 |                     | 50K (p) |         |
-| [sci-news-sum-kr-50](https://github.com/theeluwin/sci-news-sum-kr-50) | 뉴스<br />(IT/과학) | 50 (p)  | MIT     |
-| [Bflysoft-뉴스기사 데이터셋](https://dacon.io/competitions/official/235671/data/) | 뉴스                | 43K     |         |
+| Korean Dataset                                               | Domain              | Volume    | License |
+| ------------------------------------------------------------ | ------------------- | --------- | ------- |
+| [모두의 말뭉치-문서 요약 말뭉치](https://corpus.korean.go.kr/) | 뉴스<br />          | 13,167    |         |
+| [sae4K](https://github.com/warnikchow/sae4k)                 |                     | 50,000    |         |
+| [sci-news-sum-kr-50](https://github.com/theeluwin/sci-news-sum-kr-50) | 뉴스(IT/과학)<br /> | 50        | MIT     |
+| [Bflysoft-뉴스기사 데이터셋](https://dacon.io/competitions/official/235671/data/)<br />- [한국어 문서 추출요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235671/overview/)<br />- [한국어 문서 생성요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235673/overview/) | 뉴스<br />          | 43,000(p) |         |
 
 
 ### Korean Pre-trained Model
@@ -87,6 +101,8 @@ https://paperswithcode.com/task/text-summarization
 ## Others
 
 ### Resource
+
+- 
 
 - [KoreaUniv DSBA](https://www.youtube.com/channel/UCPq01cgCcEwhXl7BvcwIQyg/playlists)
 - [neulab/Text-Summarization-Papers](https://github.com/neulab/Text-Summarization-Papers)
