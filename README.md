@@ -6,12 +6,12 @@ NLP 중 텍스트 요약 관련 자료를 축적해나가는 공간입니다.
   * [Resources](#resources)
     + [Must-read Papers](#must-read-papers)
     + [SOTA Models List](#sota-models-list)
-  * [Data & Pre-trained Models](#data---pre-trained-models)
+  * [Data & Pre-trained Models](#data--pre-trained-models)
     + [Korean](#korean)
-      - [Data&Competitions](#data-competitions)
+      - [Data & Competitions](#data--competitions)
       - [Pre-trained Models](#pre-trained-models)
     + [English](#english)
-      - [Data&Competitions](#data-competitions-1)
+      - [Data & Competitions](#data--competitions-1)
   * [Others](#others)
     + [Resources](#resources-1)
     + [Recommended Papers list](#recommended-papers-list)
@@ -66,7 +66,7 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 
 ### Korean
 
-#### Data&Competitions
+#### Data & Competitions
 
 | Dataset                                                      | Domain / Length     | Volume | License |
 | ------------------------------------------------------------ | ------------------- | ------ | ------- |
@@ -92,7 +92,7 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 
 ### English
 
-#### Data&Competitions
+#### Data & Competitions
 
 [기타 요약 관련 영어 데이터셋 명칭, domain, task, paper 등](http://pfliu.com/pl-summarization/summ_data.html)
 
