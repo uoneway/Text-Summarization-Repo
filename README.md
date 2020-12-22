@@ -1,6 +1,6 @@
 # Text Summarization Repo
 NLP 중 텍스트 요약 관련 자료를 축적해나가는 공간입니다. 
-텍스트 요약 분야 공부를 시작하시는 분들에게 좋은 길잡이가 됐으면 합니다. 
+텍스트 요약 분야를 공부하기 시작하시는 분들에게 좋은 길잡이가 됐으면 합니다. 
 
   * [Prerequisite](#prerequisite)
   * [Resources](#resources)
@@ -38,6 +38,8 @@ NLP 중 텍스트 요약 관련 자료를 축적해나가는 공간입니다.
   - Metric: Rouge, BLEU, Perplexity(PPL) 등
   - Summarization 논문에서 자주 쓰이는 기본 용어: Gold/Oracle summary 등 
 
+
+
 ## Resources
 
 ### Must-read Papers
@@ -60,26 +62,30 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 
 아래 사용한 약자의 의미는 다음과 같습니다.
 
-* `w`: The number of words; `s`: The number of sentences
-  예) `1000w -> 100w; 2s` 는 평균 1000개 단어의 문서와 이에 대한 평균 100개 단어이자 2개 문장 요약문이 제공된다는 의미입니다.
+* `w`: The number of words의 평균값;  `s`: The average number of sentences의 평균값
+
+  예) `13s/214w → 1s/26w` 는 평균 13문장(평균 214단어)으로 구성된 본문 텍스트와 평균 1개 문장(평균 26개 단어)로 구성된 요약 텍스트가 제공된다는 의미입니다.
+
 * `abs`: Abstractive summary; `ext`: Extractive summary
 
 ### Korean
 
 #### Data & Competitions
 
-| Dataset                                                      | Domain / Length     | Volume | License |
-| ------------------------------------------------------------ | ------------------- | ------ | ------- |
-| [**모두의 말뭉치-문서 요약 말뭉치**](https://corpus.korean.go.kr/) | 뉴스<br />          | 13,167 |         |
-| [**sae4K**](https://github.com/warnikchow/sae4k)             |                     | 50,000 |         |
-| **[sci-news-sum-kr-50](https://github.com/theeluwin/sci-news-sum-kr-50)** | 뉴스(IT/과학)<br /> | 50     | MIT     |
-| **[Bflysoft-뉴스기사 데이터셋](https://dacon.io/competitions/official/235671/data/)**<br /><br />- [한국어 문서 추출요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235671/overview/)<br />- [한국어 문서 생성요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235673/overview/) | 뉴스<br />          | 43,000 |         |
+| Dataset                                                      | Domain / Length                                    | Volume | License |
+| ------------------------------------------------------------ | -------------------------------------------------- | ------ | ------- |
+| [**모두의 말뭉치-문서 요약 말뭉치**](https://corpus.korean.go.kr/) | 뉴스<br />                                         | 13,167 |         |
+| [**sae4K**](https://github.com/warnikchow/sae4k)             |                                                    | 50,000 |         |
+| **[sci-news-sum-kr-50](https://github.com/theeluwin/sci-news-sum-kr-50)** | 뉴스(IT/과학)<br />                                | 50     | MIT     |
+| **[Bflysoft-뉴스기사 데이터셋](https://dacon.io/competitions/official/235671/data/)**<br />짧은 뉴스 본문에 대한 단문 abs 및 ext summay 제공<br />- [참고] [데이터 EDA](https://github.com/uoneway/KoBertSum/blob/master/tutorials/EDA.ipynb)<br />- [한국어 문서 추출요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235671/overview/)<br />- [한국어 문서 생성요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235673/overview/) | - 뉴스<br />\- 13s/214w → 1s/26w(abs); 3s/55w(ext) | 43,000 |         |
+
+
 
 #### Pre-trained Models
 
 | Model                                                        | Pre-training                                                 | Usage                                                        | License                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------- |
-| [**BERT(multilingual)**](https://github.com/google-research/bert/blob/master/multilingual.md)<br /><br />BERT-Base(110M parameters) | - Wikipedia(multilingual)<br />- WordPiece. <br />- 110k shared vocabs | - [`BERT-Base, Multilingual Cased`](https://storage.googleapis.com/bert_models/2018_11_23/multi_cased_L-12_H-768_A-12.zip) 버전 권장<br />(`--do_lower_case=false` 옵션 넣어주기)<br />- Tensorflow | Google<br />(Apache 2.0)                     |
+| [**BERT(multilingual)**](https://github.com/google-research/bert/blob/master/multilingual.md)<br />BERT-Base(110M parameters) | - Wikipedia(multilingual)<br />- WordPiece. <br />- 110k shared vocabs | - [`BERT-Base, Multilingual Cased`](https://storage.googleapis.com/bert_models/2018_11_23/multi_cased_L-12_H-768_A-12.zip) 버전 권장<br />(`--do_lower_case=false` 옵션 넣어주기)<br />- Tensorflow | Google<br />(Apache 2.0)                     |
 | [**KOBERT**](https://github.com/SKTBrain/KoBERT)<br />BERT-Base(92M parameters) | - 위키백과(문장 5M개), 뉴스(문장 20M개)<br />- [SentencePiece](https://github.com/google/sentencepiece)<br />- 8,002 vocabs(unused token 없음) | - PyTorch<br />- [KoBERT-Transformers(monologg)](https://github.com/monologg/KoBERT-Transformers)를 통해 <br />Huggingface Transformers 라이브러리 형태로 사용 및 [DistilKoBERT](https://github.com/monologg/DistilKoBERT) 이용 가능 | SKTBrain<br />(Apache-2.0)                   |
 | [**KorBERT**](https://aiopen.etri.re.kr/service_dataset.php)<br />BERT-Base | - 뉴스(10년 치), 위키백과 등 23GB<br />- [ETRI 형태소분석 API](https://aiopen.etri.re.kr/service_api.php) / WordPiece(두 버전을 별도로 제공)<br />- 30,349 vocabs<br />- Latin alphabets: Cased<br />- [참고] [관련 발표자료](https://www2.slideshare.net/LGCNSairesearch/nlu-tech-talk-with-korbert) | - PyTorch, Tensorflow <br/>                                  | ETRI<br />(개별 협약 필요)                   |
 | **[KcBERT](https://github.com/Beomi/KcBERT)**<br />BERT-Base/Large | - 네이버 뉴스 댓글(12.5GB, 8.9천만개 문장)<br />(19.01.01 ~ 20.06.15 기사 중 댓글 많은 기사 내 댓글과 대댓글)<br />- [tokenizers](https://github.com/huggingface/tokenizers)의 BertWordPieceTokenizer<br />- 30,000 vocabs |                                                              | [Beomi](https://github.com/Beomi)<br />(MIT) |
@@ -87,6 +93,7 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 
 - 기타
   - https://github.com/snunlp/KR-BERT
+  - https://github.com/tbai2019/HanBert-54k-N
 
 
 
@@ -98,9 +105,9 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 
 | Dataset                                                      | Domain / Length                                              | Volume                 | License                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------- | ------------------------------------------------------------ |
-| **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />*ACL(computational linguistics, NLP) research papers에 대해 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공* <br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w; 2s; 151w | 1,000(abs/ ext)        | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
-| **[LongSumm](https://github.com/guyfe/LongSumm)**<br />*NLP 및 ML 분야 Research paper에 대해 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext)를 제공*<br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- Long → abs(100-1,500 words); ext(30 sents / 990 words) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
-| **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br /><br />*NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공*<br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- Long → 70~100w | 600(abs)               | [a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 보낸 후 contract 필요 |
+| **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />*ACL(computational linguistics, NLP) research papers에 대한 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공* <br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w(논문abstract) ; 2s(citation); 151w(abs) | 1,000(abs/ ext)        | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
+| **[LongSumm](https://github.com/guyfe/LongSumm)**<br />*NLP 및 ML 분야 Research paper에 대한 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext) 제공*<br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- origin → 100s/1,500w(abs); 30s/ 990w(ext) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
+| **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />*NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공*<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w | 600(abs)               | [a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 보낸 후 contract 필요 |
 
 
 
@@ -113,6 +120,8 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 - [neulab/Text-Summarization-Papers](https://github.com/neulab/Text-Summarization-Papers)
   - [Modern History for Text Summarization](http://pfliu.com/Historiography/summarization/summ-eng.html)
 
+
+
 ### Recommended Papers list
 
 #### Review
@@ -121,6 +130,8 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 | ---- | ------------------------------------------------------------ |
 | 2018 | [A Survey on Neural Network-Based Summarization Methods](https://arxiv.org/abs/1804.04589)<br />Y. Dong |
 | 2020 | [Review of Automatic Text Summarization Techniques & Methods](https://pdf.sciencedirectassets.com/280416/AIP/1-s2.0-S1319157820303712/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAMaCXVzLWVhc3QtMSJIMEYCIQCqwas9C5XBrxGWAixtSVG1JHu4Ir1gH4OFpMeFjVcnxQIhAJnmwsesWxU2kSicjrm72Lw1TzC0I1PTDcwulAxemPzhKr0DCIv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQAxoMMDU5MDAzNTQ2ODY1IgxjvutakJbTaBAnOb8qkQMCi48gc%2BweQ6ZCJWzaYTB4ucZyar0sFaZcnzb1wkymdAJwh9m1e%2BwLkZw2xJXLvFlUGn27lEgdYDbka8f%2BohT9oOOkF9QyGIen0yWhqlt4BB0jR6q2PyxdCswlFvY6VBuoK0g9%2Fm6oquTm37MbVHkqnaz70F%2Fy9xn5XpgjPRqrijfCP7Qf8Yd83kfWA7AQ3oxpXwIz8THWSwzlENkVBf8DByWAOvBnBnBD9K1keKjH%2FLQrCSkOgGuNOgaMPm%2FOiCzhRba4bYJJhZChjMcmNqxXczL8ebiCoIydZ923gygB5xDJpqEtP0vt0PpzEa6%2BKi03JJeXQDx3c0qQFejh52UkkqPps9jwF7dGejjgiR8WqNGWrJijW74u%2Bcys2y%2Fv8hcyME4mqlAfiXRPy0qyf6U3NA5EsaFSDR0DXR3bW39F8sIIRCeWOITf6q7rjExzvMdtr%2FsDdtKgghwR9PM75SyvX8FzYeCptHuoR3rfhc3RIxP96MNDdRIbGsht%2BJFuGUYYzuCwXPfUg%2B9eVRuUNT2bSzCPrpj%2BBTrqAep6mCVgTebUDbYKr1eHAVyOOzbsfz4lrlQN4jl3SyAFE%2FYMYxP0AyDB0rIRG8GjzfGKFzqQQScQ77d8m1ECTlFG2IuRqhvuWqIkYt21%2B3OJLSbFJ1kxhR8GLgi1%2BLYU2PJJQoVkhVbzeiPpAYh4vrjx3BdD1Y9xcGRkp5VP01DdkoYlbXpM4OkfTk6las12N8uZIfbSSqnfoepQO%2FunMSudM7nGOVphQU4TsRYDPtVYug1vy8mtj54GhcawwlcsaDPhF2tZ7hdEPyY%2BGSjyXU0ZMTffxJIhPMZUFFEtxjbmzRpSg3%2FEkKyQXQ%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20201201T105450Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTY72IXVKMF%2F20201201%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=5f657b7900fbfc13936b686de2c66279a3ff74fbf1c0345191c2f0f68223e464&hash=3a55b9be508107240e832695ad5bfc371f18cc0dc0dcef5b45b1067da37346d6&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1319157820303712&tid=spdf-d04b0e55-eee7-401f-836b-11e1fc061edf&sid=2ae121a980d1464ffe6b55c8786454c8f4aagxrqa&type=client)<br />Widyassari, A. P., Rustad, S., Shidik, G. F., Noersasongko, E., Syukur, A., & Affandy, A. |
+
+
 
 #### Classic
 
