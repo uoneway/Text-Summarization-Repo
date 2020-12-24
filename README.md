@@ -1,10 +1,12 @@
 # Text Summarization Repo
-NLP 중 텍스트 요약 관련 자료를 축적해나가는 공간입니다. 
-텍스트 요약 분야를 공부하기 시작하시는 분들에게 좋은 길잡이가 됐으면 합니다. 
+NLP 중에서도 텍스트 요약 task와 관련된 다양한 자료를 축적해나가는 공간입니다.  
 
-  * [Prerequisite](#prerequisite)
+텍스트 요약 분야의 주요 주제, Must-read Papers, 이용 가능한 model 및 data 등을 추천 자료와 함께 제시합니다. 텍스트 요약 분야를 공부하기 시작하시는 분들에게 좋은 길잡이가 됐으면 합니다. 
+
+  * [Main Topics](#main-topics)
   * [Resources](#resources)
     + [Must-read Papers](#must-read-papers)
+    + [Latest Research List](#latest-research-list)
     + [SOTA Models List](#sota-models-list)
   * [Data & Pre-trained Models](#data--pre-trained-models)
     + [Korean](#korean)
@@ -12,33 +14,78 @@ NLP 중 텍스트 요약 관련 자료를 축적해나가는 공간입니다.
       - [Pre-trained Models](#pre-trained-models)
     + [English](#english)
       - [Data & Competitions](#data--competitions-1)
+  * [Prerequisite](#prerequisite)
   * [Others](#others)
     + [Resources](#resources-1)
     + [Recommended Papers list](#recommended-papers-list)
 
-## Prerequisite
-
-텍스트 요약 분야를 공부하는데 있어 알아두면 좋을 사전 지식과 추천 자료입니다.
-
-- NLP 기본 개념 이해
-
-  - Embedding
-  - Transfer learning(Pre-training  + Fine-tunning)
-
-- Transformer/BERT 구조 및 Pre-training objective 이해
-
-  최근에 나오는 NLP분야 논문들의 상당수가 Transformer에 기반하여 만들어진 BERT, 그리고 이 BERT의 변형인 RoBERTa, T5 등 여러 Pre-trained model에 기반하고 있습니다. 따라서 코드 수준의 세부적 이해까지는 아니더라도 이들의 개략적 구조와  Pre-training objective에 대한 이해를 가지고 있다면 논문을 읽거나 구현하는데 있어 큰 도움이 됩니다. 
-
-  - [자료] [구상준(PINGPONG 블로그). Transformer - Harder, Better, Faster, Stronger: Transformer](https://blog.pingpong.us/transformer-review/)
-  - [추천] [이유경(KoreaUniv DSBA) . Transformer to T5 (XLNet, RoBERTa, MASS, BART, MT-DNN,T5)](https://www.youtube.com/watch?v=v7diENO2mEA)
-
-- Summarization task 기본 개념
-
-  - 분류: Extractive/Abstractive, Multi/Single document 등
-  - Metric: Rouge, BLEU, Perplexity(PPL) 등
-  - Summarization 논문에서 자주 쓰이는 기본 용어: Gold/Oracle summary 등 
 
 
+## Main Topics
+
+Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 어떤 Challenge가 존재하는지 함께 생각해봅시다.
+
+- **Multi / Long documents summarization**
+
+  요약이라는 task는 간단히 `f(long text) = short text`로 생각해볼 수 있습니다. 즉 긴 텍스트를 이를 잘 대표할 만한 짧은 텍스트로 바꾸는 작업입니다. 그렇기에 원문이 길어질수록, 또는 한 번에 한 문서가 아닌 여러 소스의 문서를 요약할수록 요약의 효용은 증가합니다. 문제는 동시에 요약 난이도 또한 증가한다는 점이겠죠.
+
+  그 이유로는 첫째, 긴 원문을 처리하려면  computational complexity가 증가합니다. 이는 과거의 TextRank 같은 통계 방식에서 보다, 최근 transformer를 위시한 신경망 기반 방식에서 훨씬 더 critical한 문제입니다. 둘째, 원문이 길수록 그 안에 핵심이 아닌 내용, 즉 noise가 많이 포함되어 있기 마련입니다. 무엇이 noise고 무엇이 informative한 텍스트인지 가려내기가 쉽지 않습니다. 마지막으로 긴 원문이나 다양한 소스는 다양한 관점과 내용을 동시에 가지고 있기에 이를 잘 포괄하는 요약문을 생성하는 것이 어려워지죠. 
+
+  - **Multi documents summarization(MDS)**
+
+    MDS는 복수개의 문서를 요약하는 task입니다.  [Liu et al. (2018)](https://arxiv.org/abs/1801.10198)처럼 위키 문서를 생성해내는 작업을 MDS로 생각해볼 수 있습니다. 이 때 위키에 reference로 달린 웹사이트 본문들이 원문, 생성되는 위키문서가 summary가 됩니다. 요약하는 대상이 리뷰 모음이라면 이 또한 텍스트 길이가 짧고 주관성이 높다는 특징을 가진 MDS의 일종이(이를 Opinion summarization라고도 부릅니다).
+
+  - **Long documents summarization** 
+
+    [Liu et al. (2018)](https://arxiv.org/abs/1801.10198)는 긴 텍스트를 인풋으로 받아들이기 위해 우선 통계적 방법으로 extractive summary를 만들어 중요한 문장만 추린 후 모델의 입력으로 사용합니다. 또한 transformer 연산량을 줄이기 위해 input을 블락 단위로 나눠서 연산하고 이 때 1-d convolution을 적용하여 개별 attention key, value의 수를 줄인 attention 방식을 사용합니다. [Big Bird (2020)](https://arxiv.org/abs/2007.14062) 논문은 transformer의 계산량을 줄이기 위해 기존 모든 단어 간 조합을 살펴보는 full attention 방식(quadratic) 대신 sparse attention mechanism(linear)을 도입합니다. 그 결과 동일 성능 하드웨어로 최대 8배까지 긴 문장을 요약할 수 있었습니다. 
+
+    반면 [Gidiotis &Tsoumakas (2020)](https://arxiv.org/abs/2004.06190)은 긴 텍스트 요약 문제를 한 번에 풀지 않고 여러 작은 텍스트 요약 문제들로 바꿔 푸는 divide and-conquer 접근을 시도합니다. 원문과 target summary를 multiple smaller source-target pairs로 바꿔서 모델을 훈련합니다. inference 시에는 이 모델을 통해 출력된 partial summaries를 aggregate하여 complete summary를 만듭니다. 
+
+- **Performance improvement**
+
+  어떻게 하면 더 좋은 요약문을 생성해낼 수 있을까요?
+
+  - **Transfer Learning**
+
+    최근 NLP에서 Pretraining model을 이용하는 것은 거의 default가 되었습니다. 그렇다면 Text Summarization에서 좀 더 좋은 성능을 보여줄 수 있는 Pretraining model을 만들기 위해서는 어떤 구조를 가져야 할까요? 어떤 objective를 가져야 할까요?
+
+    [PEGASUS](https://arxiv.org/abs/1912.08777)에서는 텍스트 요약과정과 objective가 유사할수록 높은 성능을 보여줄 것이라는 가정하에  ROUGE score에 기반하여 중요하다고 판단되는 문장을 골라 문장 단위로 마스킹하는 GSG(Gap Sentences Generation) 방식을 사용했습니다. 현 SOTA 모델인 [BART](https://arxiv.org/abs/1910.13461)(Bidirectional and Auto-Regressive Transformers)는 입력 텍스트 일부에 노이즈를 추가하여 이를 다시 원문으로 복구하는 autoencoder 형태로 학습합니다.
+
+  - **Post-editing Correction**
+
+    한 번에 좋은 요약문을 생성해내면 좋겠지만, 쉽지 않은 일입니다. 그렇다면 우선 요약문을 생성한 후 이를 다양한 기준에서 검토하고 수정해보면 어떨까요?
+
+    일례로 [Cao, Dong, Wu, &Cheung (2020)](https://arxiv.org/abs/2010.08712)은 생성된 요약문에 pretrained neural corrector model을 적용하여 Factual Error를 감소시키는 방법을 제시합니다.
+
+- **Metric** / **Evaluation method**
+
+  앞서 '좋은'이라는 두루뭉술한 표현을 썼는데요. 과연 '좋은 요약문'이란 무엇일까요?  [Brazinskas, Lapata, & Titov (2020)](https://arxiv.org/abs/2004.14884)에서는 좋은 요약문의 판단기준으로 다음 다섯가지를 사용합니다.
+
+  - **Fluency**:  the summary should be grammatically correct, easy to read and understand; 
+  - **Coherence**: the summary should be well structured and well organized; 
+  - **Nonredundancy**: there should be no unnecessary repetition in the summary; 
+  - **Informativeness**: how much useful information about the product does the summary provide?
+  - **Sentiment**: how well the sentiment of the summary agrees with the overall sentiment of the original reviews?
+
+  문제는 이러한 부분을 측정하는 것이 쉽지 않다는 점입니다. 텍스트 요약에서 가장 흔히 사용되는 성능 측정 지표는 Rouge인데요. Rouge에는 다양한 변종이 있지만, 기본적으로 'generated summary와 reference summary의 출현 단어와 그 순서가 얼마나 일치하는가'를 측정합니다. 뜻은 유사하지만 형태는 다른 단어가 나오거나, 단어 순서가 달라지면 설혹 더 좋은 요약문일지라도 낮은 점수를 받을 수 있겠죠. 특히 Rouge score를 높이려다 오히려 요약문의 표현적 다양성(diversity)을 헤치는 결과를 가져올 수 있습니다. 
+
+  [Lee et al. (2020)](https://arxiv.org/abs/2005.03510)은 generated summary가 본문 및 reference summary와 얼마나 유사한지를 이들을 SBERT로 임베딩한 후 나오는 벡터 간 유사도로 측정하는 RDASS(Reference and Document Awareness Semantic Score)를 제시합니다. 이러한 방식은 특히 단어와 여러 형태소가 결합하여 다양한 의미와 문법적 기능을 표현하는 교착어인 한국어 평가 정확도를 올려줄 것으로 기대됩니다. [Kryściński, McCann, Xiong, & Socher (2020)](https://arxiv.org/abs/1910.12840)는 Factual Consistency를 평가하기 위한 weakly-supervised, model-based approach를 제안했습니다.
+
+- **Query focused summarization**
+
+  주어진 문서에 대해 가장 좋은 요약문은 하나뿐일까요? 요약의 목적이나 사용자의 취향에 따라 원하는 요약문의 특성은 달라질 수 있습니다. 간단하게는 writing style이나 글의 sentiment를 조정하고 싶을 수 있습니다. 때론 문서 내 모든 정보를 담고 있는 요약문(Informative summary)을 원할 수도 있지만, 정보보다는 이야기를 잘 서술하는 요약문(Indicative summary)을 기대할 수도 있습니다. 아니면 내가 이미 경험한 문서에 없던 새로운 내용 위주의 요약문(Update summarization)을 원할 수도 있죠.
+
+  이를 *Query focused summarization*라고 합니다(이에 대비되는 의미로 Generic summarization라는 용어가 쓰입니다). 요약모델에 어떤 Query를 넣어볼 수 있을까요? 그리고 어떻게 하면 그 Query에 맞는 요약문을 생성해낼 수 있을까요?
+
+- **Data scarcity problem**
+
+  텍스트 요약이란 task는 사람이 하기에도 쉽지 않은, 시간이 많이 소모되는 작업입니다. 따라서 dataset을 만드는데 상당히 큰 비용이 소모되고 당연히 training을 위한 데이터가 많이 부족합니다.
+
+  그래서 앞서 언급한 Pretraining model을 이용하는 방식 외에도 **Few-Shot Learning**적 접근을 시도하거나 **Reinforcement learning**방식을 적용하려는 시도가 있습니다. 좋은 요약 데이터를 만드는 것 자체도 중요한 연구 주제입니다.
+
+- 이 밖에도 **모델 경량화**와 같은 전형적인 DL 주제는 물론이고 뉴스나 위키백과와 같은 Structured text가 아닌 대화체(Conversational Structure) 등에 적합한 요약모델을 만들고자 하는 시도 등 다양한 주제들이 있습니다.  
+
+  
 
 ## Resources
 
@@ -46,15 +93,24 @@ NLP 중 텍스트 요약 관련 자료를 축적해나가는 공간입니다.
 
 | Year | Model                      | Paper                                                        | Keywords                                                     |
 | ---- | -------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 2004 | **TextRank**               | **[Textrank: Bringing order into texts](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)**<br />R. Mihalcea, P. Tarau<br />*추출요약 분야의 고전이자 현재도 활발히 사용되고 있는 대표적인 모델로,  통계(PageRank) 기반unsupervised learning 방식으로 별도의 학습 데이터 없이 추론이 가능하고, 알고리즘이 명확하여 이해가 쉽습니다* <br /><br />- [이용] [gensim.summarization](https://radimrehurek.com/gensim_3.8.3/auto_examples/tutorials/run_summarization.html#sphx-glr-auto-examples-tutorials-run-summarization-py)(3.x버전만 가능. 4.x버전에서 삭제),  [PyTextRank](https://github.com/DerwenAI/pytextrank)<br />- [이론/구현] [lovit. TextRank 를 이용한 키워드 추출과 핵심 문장 추출](https://lovit.github.io/nlp/2019/04/30/textrank/)<br /> | ext,<br />PageRank,<br />Unsupervised,<br />Graph-based      |
-| 2019 | **BertSum**<br />(PreSumm) | **[Text Summarization with Pretrained Encoders](https://arxiv.org/pdf/1908.08345.pdf)** ([Code](https://github.com/nlpyang/PreSumm))<br/>Yang Liu,Mirella Lapata / EMNLP<br />*Pre-trained BERT를 요약 task에 활용하려면 어떻게 해야할까요? BertSum은 이를 위해  BERT에 Transformer layers를 얹은 구조와 여러 sentence를 하나의 인풋으로 넣어주기 위한 변형 input embeddings을 제안합니다. 또한 ext모델을 abs모델에 활용하는 2staged fine-tuning 접근도 보여줍니다.*<br /><br />- [Paper Review] [이정훈(KoreaUniv DSBA)](https://www.youtube.com/watch?v=PQk9kr9dGu0)<br />- [이용] [KoBertSum](https://github.com/uoneway/KoBertSum) | ext/abs, <br />BERT,<br />2staged fine-tuning,<br />transformer |
-| 2020 | **MatchSum**               | [**Extractive Summarization as Text Matching**](https://arxiv.org/abs/2004.08795) ([Code](https://github.com/maszhongming/MatchSum))<br />Ming Zhong, Pengfei Liu, Yiran Chen, Danqing Wang, Xipeng Qiu, Xuanjing Huang / ACL<br />- [Paper Review] [이유경(KoreaUniv DSBA)](https://www.youtube.com/watch?v=8E2Ia4Viu94&t=1582s) | ext                                                          |
+| 2004 | **TextRank**               | **[TextRank: Bringing order into texts](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)**<br />R. Mihalcea, P. Tarau<br />*추출요약 분야의 고전이자 현재도 활발히 사용되고 있는 대표적인 모델로,  통계(PageRank) 기반unsupervised learning 방식으로 별도의 학습 데이터 없이 추론이 가능하고, 알고리즘이 명확하여 이해가 쉽습니다* <br /><br />- [이용] [gensim.summarization](https://radimrehurek.com/gensim_3.8.3/auto_examples/tutorials/run_summarization.html#sphx-glr-auto-examples-tutorials-run-summarization-py)(3.x버전만 가능. 4.x버전에서 삭제),  [PyTextRank](https://github.com/DerwenAI/pytextrank)<br />- [이론/구현] [lovit. TextRank 를 이용한 키워드 추출과 핵심 문장 추출](https://lovit.github.io/nlp/2019/04/30/textrank/)<br /> | ext,<br />PageRank,<br />Unsupervised,<br />Graph-based      |
+| 2019 | **BertSum**<br />(PreSumm) | **[Text Summarization with Pretrained Encoders](https://arxiv.org/pdf/1908.08345.pdf)** ([Code](https://github.com/nlpyang/PreSumm))<br/>Yang Liu, Mirella Lapata / EMNLP<br />*Pre-trained BERT를 요약 task에 활용하려면 어떻게 해야할까요? BertSum은 이를 위해  BERT에 Transformer layers를 얹은 구조와 여러 sentence를 하나의 인풋으로 넣어주기 위한 변형 input embeddings을 제안합니다. 또한 ext모델을 abs모델에 활용하는 2staged fine-tuning 접근도 보여줍니다.*<br /><br />- [Review] [이정훈(KoreaUniv DSBA)](https://www.youtube.com/watch?v=PQk9kr9dGu0)<br />- [이용] [KoBertSum(수정중)](https://github.com/uoneway/KoBertSum) | ext/abs, <br />BERT,<br />2staged fine-tuning,<br />transformer |
+| 2020 | **BART**                   | **[BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://www.aclweb.org/anthology/2020.acl-main.703/)** <br />Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov, Luke Zettlemoyer / ACL<br /><br />- [이용] SKT T3K. **[KoBART](https://github.com/SKT-AI/KoBART)** | Pretraining model,<br />denoising autoencoder                |
+| 2020 | **MatchSum**               | [**Extractive Summarization as Text Matching**](https://arxiv.org/abs/2004.08795) ([Code](https://github.com/maszhongming/MatchSum))<br />Ming Zhong, Pengfei Liu, Yiran Chen, Danqing Wang, Xipeng Qiu, Xuanjing Huang / ACL<br />- [Review] [이유경(KoreaUniv DSBA)](https://www.youtube.com/watch?v=8E2Ia4Viu94&t=1582s) | ext                                                          |
+
+### Latest Research List
+
+[Papers with Code: Latest papers](https://paperswithcode.com/task/text-summarization/latest#code)
+
+[Paper Digest: Recent Papers on Text Summarization](https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/)
+
+[EMNLP 2020 Papers-Summarization](https://github.com/roomylee/nlp-papers-with-arxiv/tree/master/emnlp-2020#summarization)
+
+
 
 ### SOTA Models List
 
-https://paperswithcode.com/task/text-summarization
-
-https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
+[Papers with Code: Best method for each benchmarks](https://paperswithcode.com/task/text-summarization)
 
 
 
@@ -87,7 +143,7 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------- |
 | [**BERT(multilingual)**](https://github.com/google-research/bert/blob/master/multilingual.md)<br />BERT-Base(110M parameters) | - Wikipedia(multilingual)<br />- WordPiece. <br />- 110k shared vocabs | - [`BERT-Base, Multilingual Cased`](https://storage.googleapis.com/bert_models/2018_11_23/multi_cased_L-12_H-768_A-12.zip) 버전 권장<br />(`--do_lower_case=false` 옵션 넣어주기)<br />- Tensorflow | Google<br />(Apache 2.0)                     |
 | [**KOBERT**](https://github.com/SKTBrain/KoBERT)<br />BERT-Base(92M parameters) | - 위키백과(문장 5M개), 뉴스(문장 20M개)<br />- [SentencePiece](https://github.com/google/sentencepiece)<br />- 8,002 vocabs(unused token 없음) | - PyTorch<br />- [KoBERT-Transformers(monologg)](https://github.com/monologg/KoBERT-Transformers)를 통해 Huggingface Transformers 라이브러리로 이용 가능, [DistilKoBERT](https://github.com/monologg/DistilKoBERT) 이용 가능 | SKTBrain<br />(Apache-2.0)                   |
-| [**KorBERT**](https://aiopen.etri.re.kr/service_dataset.php)<br />BERT-Base | - 뉴스(10년 치), 위키백과 등 23GB<br />- [ETRI 형태소분석 API](https://aiopen.etri.re.kr/service_api.php) / WordPiece(두 버전을 별도로 제공)<br />- 30,349 vocabs<br />- Latin alphabets: Cased<br />- [참고] [관련 발표자료](https://www2.slideshare.net/LGCNSairesearch/nlu-tech-talk-with-korbert) | - PyTorch, Tensorflow <br/>                                  | ETRI<br />(개별 약정)                        |
+| [**KorBERT**](https://aiopen.etri.re.kr/service_dataset.php)<br />BERT-Base | - 뉴스(10년 치), 위키백과 등 23GB<br />- [ETRI 형태소분석 API](https://aiopen.etri.re.kr/service_api.php) / WordPiece(두 버전을 별도로 제공)<br />- 30,349 vocabs<br />- Latin alphabets: Cased<br />- [소개] [임준(ETRI). NLU Tech Talk with KorBERT](https://www2.slideshare.net/LGCNSairesearch/nlu-tech-talk-with-korbert) | - PyTorch, Tensorflow <br/>                                  | ETRI<br />(개별 약정)                        |
 | **[KcBERT](https://github.com/Beomi/KcBERT)**<br />BERT-Base/Large | - 네이버 뉴스 댓글(12.5GB, 8.9천만개 문장)<br />(19.01.01 ~ 20.06.15 기사 중 댓글 많은 기사 내 댓글과 대댓글)<br />- [tokenizers](https://github.com/huggingface/tokenizers)의 BertWordPieceTokenizer<br />- 30,000 vocabs |                                                              | [Beomi](https://github.com/Beomi)<br />(MIT) |
 | **[KoBART](https://github.com/SKT-AI/KoBART)**<br />[BART](https://arxiv.org/pdf/1910.13461.pdf)(124M) | - 위키백과(5M), 기타(뉴스, 책, 모두의 말뭉치 (대화, 뉴스, ...), 청와대 국민청원 등 0.27B)<br />- [tokenizers](https://github.com/huggingface/tokenizers)의 Character BPE tokenizer<br />- 30,000 vocabs(<unused> 포함) | - 요약 task에 특화<br />- Huggingface Transformers 라이브러리 지원<br />- PyTorch | SKT *T3K*<br />(modified MIT)                |
 
@@ -108,6 +164,33 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 | **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />*ACL(computational linguistics, NLP) research papers에 대한 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공* <br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w(논문abstract) ; 2s(citation); 151w(abs) | 1,000(abs/ ext)        | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
 | **[LongSumm](https://github.com/guyfe/LongSumm)**<br />*NLP 및 ML 분야 Research paper에 대한 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext) 제공*<br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- origin → 100s/1,500w(abs); 30s/ 990w(ext) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />*NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공*<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w | 600(abs)               | 개별약정 필요([a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 송부) |
+
+
+
+## Prerequisite
+
+텍스트 요약 분야를 공부하는데 있어 알아두면 좋을 사전 지식과 추천 자료입니다.
+
+- NLP 기본 개념 이해
+
+  - Embedding
+  - Transfer learning(Pre-training  + Fine-tunning)
+
+- Transformer/BERT 구조 및 Pre-training objective 이해
+
+  최신 NLP 분야 논문들의 상당수가 Transformer에 기반하여 만들어진 BERT, 그리고 이 BERT의 변형인 RoBERTa, T5 등 여러 Pretraining model에 기반하고 있습니다. 따라서 이들의 개략적 구조와  Pre-training objective에 대해 얕게나마 이해하고 있다면 논문을 읽거나 구현함에 있어 큰 도움이 됩니다. 
+
+  - [참고] [구상준(PINGPONG 블로그). Transformer - Harder, Better, Faster, Stronger: Transformer](https://blog.pingpong.us/transformer-review/)
+  - [참고] [이유경(KoreaUniv DSBA) . Transformer to T5 (XLNet, RoBERTa, MASS, BART, MT-DNN,T5)](https://www.youtube.com/watch?v=v7diENO2mEA)
+
+- Text Summarization 기본 개념
+
+  - 분류: Extractive/Abstractive, Multi/Single document 등
+  - Metric: Rouge, BLEU, Perplexity(PPL) 등
+  - Summarization 논문에서 자주 쓰이는 기본 용어
+    - *generated summary*는 모델이 생성해낸 요약문을 지칭합니다. 반면 사람이 직접 생성한 요약문은 평가의 기준이 되는 요약문이라는 점에서 *reference summary*이라고 부릅니다.
+    - Gold summary와 Oracle summary 
+  - [참고] [icoxfog417/awesome-text-summarization](https://github.com/icoxfog417/awesome-text-summarization)
 
 
 
@@ -185,6 +268,7 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 | 2019 |            | [ Searching for Effective Neural Extractive Summarization: What Works and What's Next](https://arxiv.org/pdf/1907.03491.pdf) Ming Zhong,Pengfei Liu,Danqing Wang,Xipeng Qiu,Xuanjing Huang / ACL | gen-ext                                                      |
 | 2019 |            | [BottleSum: Unsupervised and Self-supervised Sentence Summarization using the Information Bottleneck Principle](https://arxiv.org/pdf/1909.07405.pdf)<br/>Peter West,Ari Holtzman,Jan Buys,Yejin Choi / EMNLP | gen-ext, sup-sup, sup-unsup, arch-transformer                |
 | 2019 |            | [Scoring Sentence Singletons and Pairs for Abstractive Summarization](https://arxiv.org/pdf/1906.00077.pdf)<br/>Logan Lebanoff,Kaiqiang Song,Franck Dernoncourt,Doo Soon Kim,Seokhwan Kim,Walter Chang,Fei Liu | gen-abs, arch-cnn                                            |
+| 2019 |            | **[PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization](https://arxiv.org/abs/1912.08777)**([Code](https://github.com/google-research/pegasus))<br />Jingqing Zhang, Yao Zhao, Mohammad Saleh, Peter J. Liu<br /><br />- [Review] 김한길. [영상](https://www.youtube.com/watch?v=JhGmeQBbDdA), [발표자료](https://www2.slideshare.net/hangilkim75/pegasus-237175343) |                                                              |
 | 2020 |            | [TLDR: Extreme Summarization of Scientific Documents](https://arxiv.org/abs/2004.15011) (Code)<br />Isabel Cachola, Kyle Lo, Arman Cohan, Daniel S. Weld | gen-ext/abs                                                  |
 |      |            |                                                              |                                                              |
 
@@ -193,6 +277,7 @@ https://www.paperdigest.org/2020/08/recent-papers-on-text-summarization/
 - [neulab/Text-Summarization-Papers](neulab/Text-Summarization-Papers)
   - [10 must-read papers for neural **extractive** summarization](http://pfliu.com/pl-summarization/summ_paper_gen-ext.html)
   - [10 must-read papers for neural **abstractive** summarization](http://pfliu.com/pl-summarization/summ_paper_gen-abs.html)
-- https://github.com/icoxfog417/awesome-text-summarization
+- [icoxfog417/awesome-text-summarization](https://github.com/icoxfog417/awesome-text-summarization)
 
-- [KaiyuanGao](https://github.com/KaiyuanGao)/[awesome-deeplearning-nlp-papers](https://github.com/KaiyuanGao/awesome-dee- plearning-nlp-papers)
+- [KaiyuanGao/awesome-deeplearning-nlp-papers](https://github.com/KaiyuanGao/awesome-dee- plearning-nlp-papers)
+
