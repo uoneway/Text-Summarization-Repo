@@ -31,11 +31,11 @@ NLP 중에서도 텍스트 요약 관련 다양한 자료를 축적해나가는 
 
 > Text summarization is the process of **distilling the most important information** from a text to produce an abridged version for a particular task and user
 
-한 마디로 **주어진 텍스트 중 중요한 정보만 정제해내는 과정**이라 할 수 있는데요. 여기서 *정제*라는 표현과 *중요한*이라는 표현은 추상적이고 주관적이기에 개인적으로는 다음과 같이 표현하고 싶습니다.
+한 마디로 **주어진 텍스트 중 중요한 정보만 정제해내는 과정**이라는 건데요. 여기서 *정제*라는 표현과 *중요한*이라는 표현은 다소 추상적이고 주관적인 표현이기에 개인적으로는 다음과 같이 정의하고 싶습니다.
 
 **`f(incomprehensible text) = comprehensible information`**
 
-즉 텍스트 요약은 **원 텍스트의 가치있는 정보를 이해하기 좋은 형태로 변환**하는 것입니다. 여기서 text가 incomprehensible한 이유는 텍스트 길이가 길거나 여러 문서로 나눠져있어서 일수도, 전문적인 용어가 많이 사용되어서일 수도 있습니다. 이를 comprehensible information으로 바꾸는 요약 과정에는 텍스트 길이를 줄이거나, rephrase하는 등의 작업이 포함됩니다. 물론 무엇이 informative한 정보인지, 얼마나 짧은  텍스트로 바꿀지 등은 요약을 하는 목적이나 개인의 취향에 따라 달라지게 될 것입니다. 
+즉 텍스트 요약은 **이해하기 어려운 원 텍스트로부터 이해하기 좋으면서도 가치있는 정보로 변환**하는 것입니다. 여기서 텍스트를 이해하기 어려운 이유는 텍스트 길이가 길거나 여러 문서로 나눠져있어서 일수도, 전문적인 용어가 많이 사용되어서일 수도 있습니다. 이 텍스트를 원문을 잘 반영하면서도 간결하여 이해하기 쉬운 형태로 바꿔줘야 합니다. 물론 무엇이 정말 가치있는 정보인지, 어떠한 형태로 바꿔줄지 등은 요약을 하는 목적이나 개인의 취향에 따라 달라지게 될 것입니다. 
 
 이러한 관점으로 바라본다면 회의록, 신문기사 헤드라인, 논문 abstract, 이력서 등 텍스트를 생성해내는 task뿐만 아니라 텍스트를 그래프나 영상으로 변환하는 작업들도 텍스트 요약에 해당된다고 말할 수 있습니다. 물론 그냥 summarization이 아닌 *Text Summarization*이기에 요약의 대상(source)은 text형태로 한정됩니다. (요약의 source는 text뿐만 아니라 image나 video가 될 수도 있기 때문이죠. 전자의 예가 image captioning이고, 후자의 예가 [Video Summarization](https://paperswithcode.com/task/video-summarization)입니다. 물론 Vision과 NLP의 경계가 점점 흐릿해져가는 최근 딥러닝 추세를 고려해본다면, 곧 'Text'를 pefix로 붙이는게 의미 없는일이 되지는 않을까 하는 생각이 들기도 하네요.)
 
