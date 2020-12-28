@@ -33,9 +33,9 @@ NLP 중에서도 텍스트 요약 관련 다양한 자료를 축적해나가는 
 
 한 마디로 **주어진 텍스트 중 중요한 정보만 정제해내는 과정**이라는 건데요. 여기서 *정제*라는 표현과 *중요한*이라는 표현은 다소 추상적이고 주관적인 표현이기에 개인적으로는 다음과 같이 정의하고 싶습니다.
 
-**`f(incomprehensible text) = comprehensible information`**
+**`f(text) = comprehensible information`**
 
-즉 텍스트 요약은 **이해하기 어려운 원 텍스트로부터 이해하기 좋으면서도 가치있는 정보로 변환**하는 것입니다. 여기서 텍스트를 이해하기 어려운 이유는 텍스트 길이가 길거나 여러 문서로 나눠져있어서 일수도, 전문적인 용어가 많이 사용되어서일 수도 있습니다. 이 텍스트를 원문을 잘 반영하면서도 간결하여 이해하기 쉬운 형태로 바꿔줘야 합니다. 물론 무엇이 정말 가치있는 정보인지, 어떠한 형태로 바꿔줄지 등은 요약을 하는 목적이나 개인의 취향에 따라 달라지게 될 것입니다. 
+즉 텍스트 요약은 **원문을 이해하기 쉬우면서도 가치있는 정보로 변환**하는 작업입니다. 인간은 길이가 길거나 여러 문서로 나눠져있는 텍스트 정보를 한 눈에 파악하기 어려워합니다. 때로는 알지 못하는 전문 용어가 많이 사용되어 있을 수도 있습니다. 이러한 텍스트를 원문을 잘 반영하면서도 간결하여 이해하기 쉬운 형태로 바꿔주는 작업은 상당히 가치있는 일입니다. 물론 무엇이 정말 가치있는 정보인지, 어떠한 형태로 바꿔줄지 등은 요약을 하는 목적이나 개인의 취향에 따라 달라지게 될 것입니다. 
 
 이러한 관점으로 바라본다면 회의록, 신문기사 헤드라인, 논문 abstract, 이력서 등 텍스트를 생성해내는 task뿐만 아니라 텍스트를 그래프나 영상으로 변환하는 작업들도 텍스트 요약에 해당된다고 말할 수 있습니다. 물론 그냥 summarization이 아닌 *Text Summarization*이기에 요약의 대상(source)은 text형태로 한정됩니다. (요약의 source는 text뿐만 아니라 image나 video가 될 수도 있기 때문이죠. 전자의 예가 image captioning이고, 후자의 예가 [Video Summarization](https://paperswithcode.com/task/video-summarization)입니다. 물론 Vision과 NLP의 경계가 점점 흐릿해져가는 최근 딥러닝 추세를 고려해본다면, 곧 'Text'를 pefix로 붙이는게 의미 없는일이 되지는 않을까 하는 생각이 들기도 하네요.)
 
@@ -67,7 +67,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
   - **Multi documents summarization(MDS)**
 
-    MDS는 복수개의 문서를 요약하는 task입니다.  [Liu et al. (2018)](https://arxiv.org/abs/1801.10198)처럼 위키 문서를 생성해내는 작업을 MDS로 생각해볼 수 있습니다. 이 때 위키에 reference로 달린 웹사이트 본문들이 원문, 생성되는 위키문서가 summary가 됩니다. 요약하는 대상이 리뷰 모음이라면 이 또한 텍스트 길이가 짧고 주관성이 높다는 특징을 가진 MDS의 일종이(이를 Opinion summarization라고도 부릅니다).
+    MDS는 **복수개의 문서를 요약**하는 작업입니다.  [Liu et al. (2018)](https://arxiv.org/abs/1801.10198)처럼 위키 문서를 생성해내는 작업을 MDS로 생각해볼 수 있습니다. 이 때 위키에 reference로 달린 웹사이트 본문들이 원문, 생성되는 위키문서가 summary가 됩니다. 요약하는 대상이 리뷰 모음이라면 이 또한 텍스트 길이가 짧고 주관성이 높다는 특징을 가진 MDS의 일종이(이를 Opinion summarization라고도 부릅니다).
 
   - **Long documents summarization** 
 
@@ -105,19 +105,34 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
   [Lee et al. (2020)](https://arxiv.org/abs/2005.03510)은 generated summary가 본문 및 reference summary와 얼마나 유사한지를 이들을 SBERT로 임베딩한 후 나오는 벡터 간 유사도로 측정하는 RDASS(Reference and Document Awareness Semantic Score)를 제시합니다. 이러한 방식은 특히 단어와 여러 형태소가 결합하여 다양한 의미와 문법적 기능을 표현하는 교착어인 한국어 평가 정확도를 올려줄 것으로 기대됩니다. [Kryściński, McCann, Xiong, & Socher (2020)](https://arxiv.org/abs/1910.12840)는 Factual Consistency를 평가하기 위한 weakly-supervised, model-based approach를 제안했습니다.
 
-- **Query focused summarization**
+- **Query focused summarization**(QFS)
 
-  주어진 문서가 동일하다면, 모든 사람들이 항상 똑같은 요약문을 원할까요? 그렇지 않을 겁니다. 요약을 하는 목적이나 상황, 개인의 취향에 따라 서로 다른 요약문을 의 특성은 달라질 수 있습니다. 간단하게는 writing style이나 글의 sentiment를 조정하고 싶을 수 있습니다. 때론 문서 내 모든 정보를 담고 있는 요약문(informative summary)을 원할 수도 있지만, 정보보다는 이야기를 잘 서술하는 요약문(indicative summary)을 기대할 수도 있습니다. 아니면 내가 이미 경험한 문서에 없던 새로운 내용 위주의 요약문(*update summarization*)을 원할 수도 있죠.
+  주어진 문서에 대해 최고의 요약문은 오직 하나일까요? 그렇지 않을 겁니다. 동일한 원문에 대해서도 요약을 하는 목적이나 상황에 따라 다른 요약문을 원할 수 있습니다. 이러한 **조건을 담은 query를 원문과 함께 입력으로 넣어줌으로 query와 밀접하게 연관있는 내용 위주의 요약문을 생성하는 것**을 query focused summarization라고 합니다. (이와 대비되는 의미로 *generic summarization*라는 용어가 쓰입니다). 
 
-  특정한 조건에 맞는 요약문을 생성한다는 측면에서 이를 *query focused summarization*라고 합니다(이와 대비되는 의미로 *generic summarization*라는 용어가 쓰입니다). 요약모델에 어떤 query를 넣어볼 수 있을까요? 그리고 어떻게 하면 그 query에 맞는 요약문을 생성해낼 수 있을까요?
+  따라서 QFS는 다음과 같이 표현해볼 수 있을 것입니다. 즉 QFS를 통해 생성되는 요약문은 이해하기 쉽고 가치있어야 할 뿐만 아니라 함께 넣어준 query와 밀접하게 연관되어 있어야 합니다.
+
+  `f(text, `**`query`**`) = comprehensible and `**`query-related`**`information`
+
+  요약모델에 어떤 query를 넣어볼 수 있을까요? 그리고 어떻게 하면 그 query에 맞는 요약문을 생성해낼 수 있을까요?
+
+  - **Aspect-based summarization**
+
+    에어팟 사용자 리뷰를 요약할 때 음질, 배터리, 디자인 등의 측면을 나눠 각각에 대한 요약을 하고 싶을 수 있습니다. 아니면 글의 writing style이나 sentiment를 조정해보고 싶을 수도 있습니다. 이렇게 **특정한 측면(aspect) 또는 특성(feature)에 대한 요약문을 생성하는 작업**을 *aspect-based summarization*라고 합니다.
+
+  - **Update summarization**
+
+    인간은 계속해서 학습하고 성장해나가는 동물입니다. 따라서 특정 정보에 대해 내가 느끼는 오늘의 가치는 일주일 후의 가치와 전혀 다를 수 있습니다. 내가 이미 경험한 문서에 있던 내용의 가치는 낮아질 것이고, 아직 경험하지 못한 새로운 내용은 여전히 높은 가치를 지닐 것입니다. 이러한 관점에서 **해당 이용자가 이전에 경험했던 문서 내용과 유사도가 낮은 새로운 내용 위주의 요약문을 생성하는 작업**을 *update summarization*이라고 합니다.
+
+  ※ 여기서는 Aspect-based summarization나 update summarization를 QFS의 하위분류 중 하나로 기술했지만 이 둘을 별개의 부류로 간주하는 경우가 더 흔한듯 합니다. 예를 들어 [Tan, Qin, Xing, & Hu(2020)](https://arxiv.org/abs/2010.06792)는 QFS를 *query가 자연어인 경우*로 정의하며 aspect-based summarization와 구분하여 기술하고 있습니다. 또한 개인적인 느낌으로는 query를 pre-defined하여 한정된 query만 받는 경우에는 aspect-based summarization로, query에 자연어를 입력할 수 있어 다양한 query를 전제하고 있는 경우는 QFS로 얘기하는것 같기도 합니다. 
+  하지만 여기서는 query를 좀 더 광의의 의미로 해석하여 원문 외에 추가로 넣어주는 정보로 봄으로 QFS를 상위개념으로 보았습니다.
 
 - **Data scarcity problem**
 
   텍스트 요약이란 task는 사람이 하기에도 쉽지 않은, 시간이 많이 소모되는 작업입니다. 따라서 dataset을 만드는데 상당히 큰 비용이 소모되고 당연히 training을 위한 데이터가 많이 부족합니다.
 
-  그래서 앞서 언급한 Pretraining model을 이용하는 방식 외에도 **Few-Shot Learning**적 접근을 시도하거나 **Reinforcement learning**방식을 적용하려는 시도가 있습니다. 좋은 요약 데이터를 만드는 것 자체도 중요한 연구 주제입니다.
+  그래서 앞서 언급한 Pretraining model을 이용하는 방식 외에도 **Few-Shot Learning**적 접근을 시도하거나 **Reinforcement learning**방식을 적용하려는 시도가 있습니다. 또한 좋은 요약 데이터를 만드는 것 자체도 굉장히 중요한 연구 주제입니다.
 
-- 이 밖에도 **모델 경량화**와 같은 전형적인 DL 주제는 물론이고 뉴스나 위키백과와 같은 Structured text가 아닌 대화체(Conversational Structure) 등에 적합한 요약모델을 만들고자 하는 시도 등 다양한 주제들이 있습니다.  
+- 이 외에도 **모델 경량화**와 같은 전형적인 DL 주제는 물론이고 뉴스나 위키백과와 같은 Structured text가 아닌 대화체(Conversational Structure) 등에 적합한 요약모델을 만들고자 하는 시도 등 다양한 주제들이 있습니다.  
 
 ### Prerequisite
 
