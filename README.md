@@ -107,7 +107,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 - **Query focused summarization**(QFS)
 
-  주어진 문서에 대해 최고의 요약문은 오직 하나일까요? 그렇지 않을 겁니다. 동일한 원문에 대해서도 요약을 하는 목적이나 상황에 따라 다른 요약문을 원할 수 있습니다. 이러한 **조건을 담은 query를 원문과 함께 입력으로 넣어줌으로 query와 밀접하게 연관있는 내용 위주의 요약문을 생성하는 것**을 query focused summarization라고 합니다. (이와 대비되는 의미로 *generic summarization*라는 용어가 쓰입니다). 
+  주어진 문서에 대해 최고의 요약문은 오직 하나일까요? 그렇지 않을 겁니다. 동일한 원문에 대해서도 요약을 하는 목적이나 상황에 따라 다른 요약문을 원할 수 있습니다. 이러한 **조건을 담은 query를 원문과 함께 입력으로 넣어줌으로 query와 연관된 요약문을 생성하는 것**을 query focused summarization라고 합니다. 주어진 문서에 대해 동일한 요약문을 생성하는 *Generic summarization*에 비해 **개인화**된 요약문을 제공할 수 있습니다. 
 
   따라서 QFS는 다음과 같이 표현해볼 수 있을 것입니다. 즉 QFS를 통해 생성되는 요약문은 이해하기 쉽고 가치있어야 할 뿐만 아니라 함께 넣어준 query와 밀접하게 연관되어 있어야 합니다.
 
@@ -317,10 +317,10 @@ SOTA List: [Papers with Code: Best method for each benchmarks](https://paperswit
 
 #### References
 
-- [neulab/Text-Summarization-Papers](neulab/Text-Summarization-Papers)
+- [neulab/Text-Summarization-Papers](https://github.com/neulab/Text-Summarization-Papers)
   - [10 must-read papers for neural **extractive** summarization](http://pfliu.com/pl-summarization/summ_paper_gen-ext.html)
   - [10 must-read papers for neural **abstractive** summarization](http://pfliu.com/pl-summarization/summ_paper_gen-abs.html)
 - [icoxfog417/awesome-text-summarization](https://github.com/icoxfog417/awesome-text-summarization)
 
-- [KaiyuanGao/awesome-deeplearning-nlp-papers](https://github.com/KaiyuanGao/awesome-dee- plearning-nlp-papers)
+- [KaiyuanGao/awesome-deeplearning-nlp-papers](https://github.com/KaiyuanGao/awesome-deeplearning-nlp-papers)
 
