@@ -46,7 +46,7 @@ NLP 중에서도 텍스트 요약 관련 다양한 자료를 축적해나가는 
 
 > Extractive methods select a subset of existing words, phrases, or sentences in the original text to form a summary. In contrast, abstractive methods first build an internal semantic representation and then use natural language generation techniques to create a summary. 
 
-Ext는 원문 텍스트 중 **중요한 텍스트를 선택하고 이를 조합**하여 summary를 만듭니다. 우리가 글을 읽다가 형광펜을 칠하는 작업과 비슷하죠. 반면 abs는 원문을 기반으로 하되, 새로운 텍스트(novel text)를 생성해내는 NLG(natural language generation) 방식입니다. Ext는 원문에 있던 텍스트를 활용하기에 표현이 제한적이나 말이 안되는 표현이 포함될 가능성이 낮습니다. 반면 abs는 모델에서 새로운 텍스트를 생성해내야 하기에 말이 되지 않는 표현이 만들어질 가능성이 존재하나 좀더 flexible한 접근이 가능하다는 장점이 있습니다.
+**Ext**는 보통 **문장 단위로 중요도를 scoring한 후, 이를 기반으로 선택하고 조합**하여 summary를 만듭니다. 우리가 글을 읽다가 형광펜을 칠하는 작업과 비슷하죠. 반면 **abs**는 **원문을 기반으로 하되, 새로운 텍스트(novel text)를 생성해내는 NLG(natural language generation) 방식**입니다. Ext는 원문에 있던 텍스트를 활용하기에 표현이 제한적이나 말이 안되는 표현이 포함될 가능성이 낮습니다. 반면 abs는 모델에서 새로운 텍스트를 생성해내야 하기에 말이 되지 않는 표현이 만들어질 가능성이 존재하나 좀더 flexible한 접근이 가능하다는 장점이 있습니다.
 
 이 외에도 원문의 개수에 따라 **single/multi document** summarization, 생성해내는 텍스트 형태에 따라 **keyword/sentence** summarization, 요약 과정에서 원문 외 외부 정보를 얼마나 사용하는지에 따라 **knowlege-poor/rich** summarization 등 다양한 구분이 있습니다.
 
@@ -92,6 +92,8 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
     일례로 [Cao, Dong, Wu, &Cheung (2020)](https://arxiv.org/abs/2010.08712)은 생성된 요약문에 pretrained neural corrector model을 적용하여 Factual Error를 감소시키는 방법을 제시합니다.
 
+  - 이 외에도 최근 핫한 Graph Neural Network(GNN)을 적용한 시도들도 많아지고 있습니다.
+
 - **Metric** / **Evaluation method**
 
   앞서 '좋은'이라는 두루뭉술한 표현을 썼는데요. 과연 '좋은 요약문'이란 무엇일까요?  [Brazinskas, Lapata, & Titov (2020)](https://arxiv.org/abs/2004.14884)에서는 좋은 요약문의 판단기준으로 다음 다섯가지를 사용합니다.
@@ -124,7 +126,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
   - **Query focused summarization**(QFS)
 
-    주로 *condition*이 *query*인 경우, QFS라 합니다. 우리가 잘 아는 QA시스템과 상당히 유사하다고 할 수 있습니다. ***query*는 주로 자연어 형태**를 띠고 있기에 이 다양한 표현들을 어떻게 잘 임베딩하여 원문과 매칭할지가 주요한 과제입니다.
+    Condition*이 *query*인 경우, QFS라 부릅니다. **Query는 주로 자연어 형태**를 띠고 있기에 이 다양한 표현들을 어떻게 잘 임베딩하여 원문과 매칭할지가 주요한 과제입니다. 우리가 잘 아는 QA시스템과 상당히 유사하다고 할 수 있습니다. 
     
   - **Update summarization**
 
@@ -159,6 +161,10 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
   - [글] [구상준(PINGPONG 블로그). Transformer - Harder, Better, Faster, Stronger: Transformer](https://blog.pingpong.us/transformer-review/)
   - [영상] [이유경(KoreaUniv DSBA) . Transformer to T5 (XLNet, RoBERTa, MASS, BART, MT-DNN,T5)](https://www.youtube.com/watch?v=v7diENO2mEA)
+
+- Graph Neural Network(GNN)
+
+  - [영상] [강현규(KoreaUniv DMQA). Graph Attention Networks](http://dmqm.korea.ac.kr/activity/seminar/296)
 
 - Text Summarization 기초 개념
 
@@ -214,12 +220,13 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 #### Data & Competitions
 
-| Dataset                                                      | Domain / Length                                    | Volume | License                                                      |
-| ------------------------------------------------------------ | -------------------------------------------------- | ------ | ------------------------------------------------------------ |
-| [**모두의 말뭉치-문서 요약 말뭉치**](https://corpus.korean.go.kr/) ([명세](https://rlkujwkk7.toastcdn.net/NIKL_SUMMARIZATION(v1.0).pdf))<br />*짧은 뉴스 본문에 대한 제목, 3문장 abs 및 ext summay 제공합니다. id로 신문 말뭉치([명세](https://rlkujwkk7.toastcdn.net/NIKL_NEWSPAPER(v1.0).pdf))와 결합하여 소제목, media, date, topic 관련 추가 정보를 얻을 수 있습니다.* | 뉴스<br />\- origin → 3s(abs); 3s(ext)             | 13,167 | 국립국어원<br />(개별 약정)                                  |
-| [**sae4K**](https://github.com/warnikchow/sae4k)             |                                                    | 50,000 | [CC-BY-SA-4.0](https://github.com/warnikchow/sae4k/blob/master/LICENSE) |
-| **[sci-news-sum-kr-50](https://github.com/theeluwin/sci-news-sum-kr-50)** | 뉴스(IT/과학)<br />                                | 50     | MIT                                                          |
-| **[Bflysoft 구축-뉴스기사 데이터셋](https://dacon.io/competitions/official/235671/data/)**<br />*짧은 뉴스 본문에 대한 media, 단문 abs 및 ext summay 제공합니다.*<br /><br />- [EDA] [데이터 EDA 노트북](https://github.com/uoneway/KoBertSum/blob/master/tutorials/EDA.ipynb)<br />- [한국어 문서 추출요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235671/overview/)<br />- [한국어 문서 생성요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235673/overview/) | - 뉴스<br />\- 13s/214w → 1s/26w(abs); 3s/55w(ext) | 43,000 | 개별 약정<br />* 추후 [AIHub](https://www.aihub.or.kr/aidata/8054)를 통해 공개예정 |
+| Dataset                                                      | Domain / Length                                    | Volume<br />(pair)                | License                                                      |
+| ------------------------------------------------------------ | -------------------------------------------------- | --------------------------------- | ------------------------------------------------------------ |
+| [**모두의 말뭉치-문서 요약 말뭉치**](https://corpus.korean.go.kr/) ([명세](https://rlkujwkk7.toastcdn.net/NIKL_SUMMARIZATION(v1.0).pdf))<br />*짧은 뉴스 본문에 대한 제목, 3문장 abs 및 ext summay 제공. id로 신문 말뭉치([명세](https://rlkujwkk7.toastcdn.net/NIKL_NEWSPAPER(v1.0).pdf))와 결합하여 소제목, media, date, topic 관련 추가 정보를 얻을 수 있음* | 뉴스<br />\- origin → 3s(abs); 3s(ext)             | 13,167                            | 국립국어원<br />(개별 약정)                                  |
+| [**sae4K**](https://github.com/warnikchow/sae4k)             |                                                    | 50,000                            | [CC-BY-SA-4.0](https://github.com/warnikchow/sae4k/blob/master/LICENSE) |
+| **[sci-news-sum-kr-50](https://github.com/theeluwin/sci-news-sum-kr-50)** | 뉴스(IT/과학)<br />                                | 50                                | MIT                                                          |
+| **[Bflysoft 구축-뉴스기사 데이터셋 (2020)](https://dacon.io/competitions/official/235671/data/)**<br />*짧은 뉴스 본문에 대한 media, 단문 abs 및 ext summay 제공*<br /><br />- [EDA] [데이터 EDA 노트북](https://github.com/uoneway/KoBertSum/blob/master/tutorials/EDA.ipynb)<br />- [한국어 문서 추출요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235671/overview/)<br />- [한국어 문서 생성요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235673/overview/) | - 뉴스<br />\- 13s/214w → 1s/26w(abs); 3s/55w(ext) | 43,000                            | 개별 약정<br />* 추후 [AIHub](https://www.aihub.or.kr/aidata/8054)를 통해 공개예정 |
+| [**WikiLingua**: A Multilingual Abstractive Summarization Dataset (2020)](https://github.com/esdurmus/Wikilingua) <br />*[wikiHow](https://www.wikihow.com/)를 통해 구축한 Korean, English 등 17개국어에 대한 abs summay*<br /><br />- [paper](https://www.aclweb.org/anthology/2020.findings-emnlp.360/), [Collab notebook](https://colab.research.google.com/drive/1HxonmcM7EOQVal2I6oTi9QWEP257BgDP?usp=sharing) | - How-to docs<br />- 391w→ 39w                     | 12,189<br />(전체 770,087 중 kor) | 2020,<br />[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) |
 
 
 
@@ -250,6 +257,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 | **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />*ACL(computational linguistics, NLP) research papers에 대한 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공* <br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w(논문abstract) ; 2s(citation); 151w(abs) | 1,000(abs/ ext)        | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
 | **[LongSumm](https://github.com/guyfe/LongSumm)**<br />*NLP 및 ML 분야 Research paper에 대한 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext) 제공*<br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- origin → 100s/1,500w(abs); 30s/ 990w(ext) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />*NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공*<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w | 600(abs)               | 개별약정 필요([a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 송부) |
+| [**Global Voices**: Crossing Borders in Automatic News Summarization (2019)](http://opus.nlpl.eu/GlobalVoices.php)<br />- [paper](https://www.aclweb.org/anthology/D19-5411.pdf) | - 뉴스<br />- 359w→ 51w                                      |                        |                                                              |
 
 
 
