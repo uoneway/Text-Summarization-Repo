@@ -15,7 +15,7 @@ NLP 중에서도 텍스트 요약 관련 다양한 자료를 축적해나가는 
     + [Korean](#korean)
       - [Data & Competitions](#data--competitions)
       - [Pre-trained Models](#pre-trained-models)
-    + [English](#english)
+    + [English / Multilingual](#english--multilingual)
       - [Data & Competitions](#data--competitions-1)
   * [Others](#others)
     + [Services](#services)
@@ -142,7 +142,9 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
   텍스트 요약이란 task는 사람이 하기에도 쉽지 않은, 시간이 많이 소모되는 작업입니다. 따라서 dataset을 만드는데 상당히 큰 비용이 소모되고 당연히 training을 위한 데이터가 많이 부족합니다.
 
-  그래서 앞서 언급한 Pretraining model을 이용하는 방식 외에도 **Few-Shot Learning**적 접근을 시도하거나 **Reinforcement learning**방식을 적용하려는 시도가 있습니다. 또한 좋은 요약 데이터를 만드는 것 자체도 굉장히 중요한 연구 주제입니다.
+  이에 따라 앞서 언급한 Pretraining model을 이용하는 **Transfer Learning**방식 외에도 **unsupervised learning**이나 **reinforcement learning** 방식으로 학습하거나 **few-Shot Learning**적 접근이 이루어지고 있습니다. 
+
+  당연히 좋은 요약 데이터를 만드는 것 자체도 굉장히 중요한 연구 주제입니다. 특히나 현재 만들어진 summarization 관련 데이터셋의 상당수가 english로 된 news type에 편중되어 있습니다. 이에 따라 최근 [WikiLingua](#Wikilingua)나 [MLSUM](#mlsum)과 같은 multilingual datasets이 만들어지고 있습니다. 보다 자세한 내용은  [MLSUM: The Multilingual Summarization Corpus](https://www.aclweb.org/anthology/2020.emnlp-main.647.pdf)의 *2. Related Work*를 살펴보세요.
 
 - 이 외에도 **모델 경량화**와 같은 전형적인 DL 주제는 물론이고 뉴스나 위키백과와 같은 Structured text가 아닌 대화체(Conversational Structure) 등에 적합한 요약모델을 만들고자 하는 시도 등 다양한 주제들이 있습니다.  
 
@@ -226,7 +228,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 | [**sae4K**](https://github.com/warnikchow/sae4k)             |                                                    | 50,000                            | [CC-BY-SA-4.0](https://github.com/warnikchow/sae4k/blob/master/LICENSE) |
 | **[sci-news-sum-kr-50](https://github.com/theeluwin/sci-news-sum-kr-50)** | 뉴스(IT/과학)<br />                                | 50                                | MIT                                                          |
 | **[Bflysoft 구축-뉴스기사 데이터셋 (2020)](https://dacon.io/competitions/official/235671/data/)**<br />*짧은 뉴스 본문에 대한 media, 단문 abs 및 ext summay 제공*<br /><br />- [EDA] [데이터 EDA 노트북](https://github.com/uoneway/KoBertSum/blob/master/tutorials/EDA.ipynb)<br />- [한국어 문서 추출요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235671/overview/)<br />- [한국어 문서 생성요약 AI 경진대회(~ 2020.12.09)](https://dacon.io/competitions/official/235673/overview/) | - 뉴스<br />\- 13s/214w → 1s/26w(abs); 3s/55w(ext) | 43,000                            | 개별 약정<br />* 추후 [AIHub](https://www.aihub.or.kr/aidata/8054)를 통해 공개예정 |
-| [**WikiLingua**: A Multilingual Abstractive Summarization Dataset (2020)](https://github.com/esdurmus/Wikilingua) <br />*[wikiHow](https://www.wikihow.com/)를 통해 구축한 Korean, English 등 17개국어에 대한 abs summay*<br /><br />- [paper](https://www.aclweb.org/anthology/2020.findings-emnlp.360/), [Collab notebook](https://colab.research.google.com/drive/1HxonmcM7EOQVal2I6oTi9QWEP257BgDP?usp=sharing) | - How-to docs<br />- 391w→ 39w                     | 12,189<br />(전체 770,087 중 kor) | 2020,<br />[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) |
+| <a name="Wikilingua">[**WikiLingua**: A Multilingual Abstractive Summarization Dataset (2020)](https://github.com/esdurmus/Wikilingua)<br />매뉴얼 사이트인 [WikiHow](https://www.wikihow.com/)를 기반으로 Korean, English 등 18개국어 summay dataset 제공 <br /><br />- [paper](https://arxiv.org/abs/2010.03093), [Collab notebook](https://colab.research.google.com/drive/1HxonmcM7EOQVal2I6oTi9QWEP257BgDP?usp=sharing)</a> | - How-to docs<br />- 391w→ 39w                     | 12,189<br />(전체 770,087 중 kor) | 2020,<br />[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) |
 
 
 
@@ -246,7 +248,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 
 
-### English
+### English / Multilingual
 
 #### Data & Competitions
 
@@ -258,6 +260,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 | **[LongSumm](https://github.com/guyfe/LongSumm)**<br />*NLP 및 ML 분야 Research paper에 대한 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext) 제공*<br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- origin → 100s/1,500w(abs); 30s/ 990w(ext) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />*NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공*<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w | 600(abs)               | 개별약정 필요([a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 송부) |
 | [**Global Voices**: Crossing Borders in Automatic News Summarization (2019)](http://opus.nlpl.eu/GlobalVoices.php)<br />- [paper](https://www.aclweb.org/anthology/D19-5411.pdf) | - 뉴스<br />- 359w→ 51w                                      |                        |                                                              |
+| <a name="mlsum">[**MLSUM**: The Multilingual Summarization Corpus](https://github.com/recitalAI/MLSUM)</a><br />e CNN/Daily Mail dataset과 유사하게 news articles 내 highlights/description을 summary로 간주하여 English, French, German, Spanish, Russian,Turkish에 대한 summary dataset을 구축 <br />- [paper](https://www.aclweb.org/anthology/2020.emnlp-main.647), [이용(huggingface)](https://github.com/huggingface/datasets/tree/master/datasets/mlsum) | - 뉴스<br />- 790w→ 56w<br />(en 기준)                       | 1.5M(abs)              | non-commercial research purposes only                        |
 
 
 
@@ -266,12 +269,13 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 ### Services
 
 - [Semantic Scholar](https://tldr.semanticscholar.org/): 논문에 대한 요약서비스 제공
+- [TLDR this](https://tldrthis.com/): Article summarizer. Chtome/Firefox extension 제공 
 - [세줄요약기](https://summariz3.herokuapp.com/): TextRank 기반 세줄 요약기
 
 ### Resources
 
 - [KoreaUniv DSBA](https://www.youtube.com/channel/UCPq01cgCcEwhXl7BvcwIQyg/playlists)
-
+- 
 - [neulab/Text-Summarization-Papers](https://github.com/neulab/Text-Summarization-Papers)
   - [Modern History for Text Summarization](http://pfliu.com/Historiography/summarization/summ-eng.html)
 
