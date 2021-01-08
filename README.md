@@ -13,10 +13,10 @@ NLP 중에서도 텍스트 요약 관련 다양한 자료를 축적해나가는 
     + [SOTA & Latest Research List](#sota--latest-research-list)
   * [Data & Pre-trained Models](#data--pre-trained-models)
     + [Korean](#korean)
-      - [Data & Competitions](#data--competitions)
+      - [Datasets](#datasets)
       - [Pre-trained Models](#pre-trained-models)
     + [English / Multilingual](#english--multilingual)
-      - [Data & Competitions](#data--competitions-1)
+      - [Datasets](#datasets-1)
   * [Others](#others)
     + [Services](#services)
     + [Resources](#resources-1)
@@ -239,7 +239,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 ### Korean
 
-#### Data & Competitions
+#### Datasets
 
 | Dataset                                                      | Domain / Length                                    | Volume<br />(pair)                | License                                                      |
 | ------------------------------------------------------------ | -------------------------------------------------- | --------------------------------- | ------------------------------------------------------------ |
@@ -269,17 +269,17 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 ### English / Multilingual
 
-#### Data & Competitions
+#### Datasets
 
 [기타 요약 관련 영어 데이터셋 명칭, domain, task, paper 등](http://pfliu.com/pl-summarization/summ_data.html)
 
-| Dataset                                                      | Domain / Length                                              | Volume                 | License                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------- | ------------------------------------------------------------ |
-| **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />ACL(computational linguistics, NLP) research papers에 대한 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공<br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w(논문abstract) ; 2s(citation); 151w(abs) | 1,000(abs/ ext)        | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
+| Dataset                                                      | Domain / Length                                              |         Volume         |                           License                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | :--------------------: | :----------------------------------------------------------: |
+| **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />ACL(computational linguistics, NLP) research papers에 대한 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공<br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w(논문abstract) ; 2s(citation); 151w(abs) |    1,000(abs/ ext)     | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
 | **[LongSumm](https://github.com/guyfe/LongSumm)**<br />NLP 및 ML 분야 Research paper에 대한 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext) 제공<br /><br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- origin → 100s/1,500w(abs); 30s/ 990w(ext) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
-| **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w | 600(abs)               | 개별약정 필요([a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 송부) |
-| [**Global Voices**: Crossing Borders in Automatic News Summarization (2019)](http://opus.nlpl.eu/GlobalVoices.php)<br />- [paper](https://www.aclweb.org/anthology/D19-5411.pdf) | - 뉴스<br />- 359w→ 51w                                      |                        |                                                              |
-| <a name="mlsum"></a>[**MLSUM**: The Multilingual Summarization Corpus](https://github.com/recitalAI/MLSUM)<br />CNN/Daily Mail dataset과 유사하게 news articles 내 highlights/description을 summary로 간주하여 English, French, German, Spanish, Russian,Turkish에 대한 summary dataset을 구축 <br /><br />- [paper](https://www.aclweb.org/anthology/2020.emnlp-main.647), [이용(huggingface)](https://github.com/huggingface/datasets/tree/master/datasets/mlsum) | - 뉴스<br />- 790w→ 56w<br />(en 기준)                       | 1.5M(abs)              | non-commercial research purposes only                        |
+| **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w |        600(abs)        | 개별약정 필요([a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 송부) |
+| [**Global Voices**: Crossing Borders in Automatic News Summarization (2019)](http://opus.nlpl.eu/GlobalVoices.php)<br /><br />- [Paper](https://www.aclweb.org/anthology/D19-5411.pdf) | - 뉴스<br />- 359w→ 51w                                      |                        |                                                              |
+| <a name="mlsum"></a>[**MLSUM**: The Multilingual Summarization Corpus](https://github.com/recitalAI/MLSUM)<br />CNN/Daily Mail dataset과 유사하게 news articles 내 highlights/description을 summary로 간주하여 English, French, German, Spanish, Russian,Turkish에 대한 summary dataset을 구축 <br /><br />- [Paper](https://www.aclweb.org/anthology/2020.emnlp-main.647), [이용(huggingface)](https://github.com/huggingface/datasets/tree/master/datasets/mlsum) | - 뉴스<br />- 790w→ 56w<br />(en 기준)                       |       1.5M(abs)        |            non-commercial research purposes only             |
 |                                                              |                                                              |                        |                                                              |
 
 <br>
@@ -294,10 +294,10 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 <br>
 
-### Resources
+### Recommended Resources
 
 - [KoreaUniv DSBA](https://www.youtube.com/channel/UCPq01cgCcEwhXl7BvcwIQyg/playlists)
-- 
+- [KoreaUniv DMQA](http://dmqm.korea.ac.kr/activity/seminar)
 - [neulab/Text-Summarization-Papers](https://github.com/neulab/Text-Summarization-Papers)
   - [Modern History for Text Summarization](http://pfliu.com/Historiography/summarization/summ-eng.html)
 
