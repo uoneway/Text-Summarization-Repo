@@ -38,7 +38,7 @@ NLP 중에서도 텍스트 요약 관련 다양한 자료를 축적해나가는 
 
 즉 텍스트 요약은 **원문을 이해하기 쉬우면서도 가치있는 정보로 변환**하는 작업입니다. 인간은 길이가 길거나 여러 문서로 나눠져있는 텍스트 정보를 한 눈에 파악하기 어려워합니다. 때로는 알지 못하는 전문 용어가 많이 사용되어 있을 수도 있습니다. 이러한 텍스트를 원문을 잘 반영하면서도 간결하여 이해하기 쉬운 형태로 바꿔주는 작업은 상당히 가치있는 일입니다. 물론 무엇이 정말 가치있는 정보인지, 어떠한 형태로 바꿔줄지 등은 요약을 하는 목적이나 개인의 취향에 따라 달라지게 될 것입니다. 
 
-이러한 관점으로 바라본다면 회의록, 신문기사 헤드라인, 논문 abstract, 이력서 등 텍스트를 생성해내는 task뿐만 아니라 텍스트를 그래프나 영상으로 변환하는 작업들도 텍스트 요약에 해당된다고 말할 수 있습니다. 물론 그냥 summarization이 아닌 *Text Summarization*이기에 요약의 대상(source)은 text형태로 한정됩니다. (요약의 source는 text뿐만 아니라 image나 video가 될 수도 있기 때문이죠. 전자의 예가 image captioning, 후자의 예가 [video Summarization](https://paperswithcode.com/task/video-summarization)입니다. 또한 Text, image, video 등 다양한 형태의 source를 함께 요약하는 방식을 multimodal summarization라고 합니다. 를 물론 Vision과 NLP의 경계가 점점 흐릿해져가는 최근 딥러닝 추세를 고려해본다면, 곧 'Text'를 pefix로 붙이는게 의미 없는일이 되지는 않을까 하는 생각이 들기도 하네요.)
+이러한 관점으로 바라본다면 회의록, 신문기사 헤드라인, 논문 abstract, 이력서 등 텍스트를 생성해내는 task뿐만 아니라 텍스트를 그래프나 영상으로 변환하는 작업들도 텍스트 요약에 해당된다고 말할 수 있습니다. 물론 그냥 summarization이 아닌 *Text Summarization*이기에 요약의 대상(source)은 text형태로 한정됩니다. (요약의 source는 text뿐만 아니라 image나 video가 될 수도 있기 때문이죠. 전자의 예가 image captioning, 후자의 예가 [video Summarization](https://paperswithcode.com/task/video-summarization)입니다. 또한 Text, image, video 등 다양한 형태의 source를 함께 요약하는 방식을 multimodal summarization라고 합니다. 물론 Vision과 NLP의 경계가 점점 흐릿해져가는 최근 딥러닝 추세를 고려해본다면, 곧 'Text'를 pefix로 붙이는게 의미 없는일이 되지는 않을까 하는 생각이 들기도 하네요.)
 
 <br>
 
@@ -162,9 +162,11 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 <br>
 
-### Prerequisite
+### Related Knowledge
 
-텍스트 요약 분야 공부를 시작하는데 있어 다음을 알고 있다면 좀 더 쉽게 공부를 진행해나갈 수 있을 것입니다.
+텍스트 요약 분야 공부를 해나가는데 있어 다음을 알고 있다면 좀 더 쉽게 공부를 진행해나갈 수 있을 것입니다.
+
+#### Required
 
 - NLP 기본 개념 이해
 
@@ -175,12 +177,10 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
   최신 NLP 분야 논문들의 상당수가 Transformer에 기반하여 만들어진 BERT, 그리고 이 BERT의 변형인 RoBERTa, T5 등 여러 Pretraining model에 기반하고 있습니다. 따라서 이들의 개략적 구조와  Pre-training objective에 대해 얕게나마 이해하고 있다면 논문을 읽거나 구현함에 있어 큰 도움이 됩니다. 
 
-  - [글] [구상준(PINGPONG 블로그). Transformer - Harder, Better, Faster, Stronger: Transformer](https://blog.pingpong.us/transformer-review/)
+  - [글] [구상준(PINGPONG). Transformer - Harder, Better, Faster, Stronger: Transformer](https://blog.pingpong.us/transformer-review/)
   - [영상] [이유경(KoreaUniv DSBA) . Transformer to T5 (XLNet, RoBERTa, MASS, BART, MT-DNN,T5)](https://www.youtube.com/watch?v=v7diENO2mEA)
-
-- Graph Neural Network(GNN)
-
-  - [영상] [강현규(KoreaUniv DMQA). Graph Attention Networks](http://dmqm.korea.ac.kr/activity/seminar/296)
+    Transformer에 기반한 최신 모델들을 objective 중심으로 비교하며 설명해줍니다.
+  - [영상] [고현웅. Machine Translation Survey (vol1) : Background)](https://www.youtube.com/watch?v=KQfvEg-fGMw)
 
 - Text Summarization 기초 개념
 
@@ -188,8 +188,20 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
     - *Original text* = *Source text*
     - *generated summary*는 모델이 생성해낸 요약문을 의미합니다. 반면 우리가 정답으로 간주하는(보통은 사람이 직접 원문을 보고 생성한) 요약문은 *reference summary* 또는 *gold summary*라고 부릅니다. 보통은 두 용어를 크게 구분없이 쓰는듯 하나, 전자는 *generated summary*를 평가하기 위한 기준이 되는 요약문이라는 면을 강조할 때, 후자는 우리가 찾는 진짜 요약문이라는 점을 강조할 때 주로 사용되는 듯 합니다.  
   - Metric: Rouge, BLEU, Perplexity(PPL) 등
-  - [글] [icoxfog417/awesome-text-summarization](https://github.com/icoxfog417/awesome-text-summarization)
+  - [글] [icoxfog417. awesome-text-summarization](https://github.com/icoxfog417/awesome-text-summarization)
   - [PPT] [Sang-Houn Choi. Text summarization](https://www.slideshare.net/cozyhous?utm_campaign=profiletracking&utm_medium=sssite&utm_source=ssslideview)
+
+#### Elective
+
+- Graph Neural Network(GNN)
+
+  - [영상] [강현규(KoreaUniv DMQA). Graph Attention Networks](http://dmqm.korea.ac.kr/activity/seminar/296)
+
+- Machine translation(MT)
+
+  MT는 seq2seq의 등장 이후 NLP분야 중에서도 가장 활발하게 연구되어온 task 중 하나입니다. Summarization 과정을 원 텍스트를 다른 형태의 텍스트로 변환하는 과정으로 본다면 일종의 MT라고도 볼 수 있기에, MT 관련 연구와 아이디어 중 많은 부분이 summarization 분야에 이미 차용되었거나 앞으로 적용될 가능성이 높습니다. 
+
+  - [영상] [고현웅. Machine Translation Survey (vol2) : Background)](https://www.youtube.com/watch?v=18iH6VX-IU4)
 
 <br>
 
@@ -203,7 +215,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 | 2019<br /><br />Model             | **BertSum**: [Text Summarization with Pretrained Encoders](https://arxiv.org/pdf/1908.08345.pdf) ([Code](https://github.com/nlpyang/PreSumm))<br/>*Yang Liu, Mirella Lapata / EMNLP 2019*<br /><br />![BERTSUM_structure](images/BERTSUM_structure.PNG) Pre-trained BERT를 요약 task에 활용하려면 어떻게 해야할까요? <br />BertSum은 이를 위해  BERT에 Transformer layers를 얹은 구조를 사용합니다. 또한 여러 sentence를 하나의 인풋으로 넣어주기 위해 매 문장 앞에 [CLS] 토큰을 삽입하고 interval segment embeddings을 추가한 변형 input embeddings을 제안합니다. ext모델의 output을 abs모델의 input으로 이용하는 2staged fine-tuning 접근도 보여줍니다.<br /><br />- [Review] [이정훈(KoreaUniv DSBA)](https://www.youtube.com/watch?v=PQk9kr9dGu0)<br />- [Code] [KoBertSum(수정중)](https://github.com/uoneway/KoBertSum) | ext/abs, <br />BERT+transformer,<br />2-staged fine-tuning   |
 | 2019<br /><br />Pretraining Model | <a name="BART"></a>[**BART**: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://www.aclweb.org/anthology/2020.acl-main.703/) <br />*Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov, Luke Zettlemoyer / ACL 2020*<br /><br />![img](images/summarization.016.png) BERT는 bidirectional encoder로 generation task에 약하고, GPT는 auto-regressive한 model로 bidirectional한 정보를 얻지 못한다는 단점을 가집니다. <br />BART는 이들을 결합한 seq2seq 형태를 가짐으로 기존에 나왔던 다양한 denosing기법을 한 모델에서 실험해볼 수 있었습니다. 그 결과 Text infilling(text span을 하나의 mask token으로 바꿈)과 Sentence shuffling(문장 순서를 랜덤으로 섞음)을 동시에 적용함으로, 특히 summarization 분야에서 기 SOTA 모델을 훌쩍 뛰어넘는 성능을 보여줍니다.  <br /> <br />- [Code] SKT T3K. **[KoBART](https://github.com/SKT-AI/KoBART)**<br />- [Review] [진명훈_영상](https://www.youtube.com/watch?v=VmYMnpDLPEo), [임연수_글](https://dladustn95.github.io/nlp/BART_paper_review/),  [Jiwung Hyun_글](https://medium.com/@kabbi159/acl-2020-bart-denoising-sequence-to-sequence-pre-training-for-natural-language-generation-7a0ae37109dc), | abs,<br />seq2seq,<br />Denoising autoencoder,<br />Text infilling |
 | 2020<br /><br />Model             | [**MatchSum**: Extractive Summarization as Text Matching](https://arxiv.org/abs/2004.08795) ([Code](https://github.com/maszhongming/MatchSum))<br />*Ming Zhong, Pengfei Liu, Yiran Chen, Danqing Wang, Xipeng Qiu, Xuanjing Huang / ACL 2020*<br /><br />- [Review] [이유경(KoreaUniv DSBA)](https://www.youtube.com/watch?v=8E2Ia4Viu94&t=1582s) | ext                                                          |
-| 2020<br /><br />Technique         | <a name="Any_Aspects"></a>[Summarizing Text on Any Aspects: A Knowledge-Informed Weakly-Supervised Approach](https://arxiv.org/abs/2010.06792) ([Code](https://github.com/tanyuqian/aspect-based-summarization))<br />*Bowen Tan, Lianhui Qin, Eric P. Xing, Zhiting Hu / EMNLP 2020*<br /><br />![image-20210109063052942](images/image-20210109063052942.png) <br />Aspect-based summarization는 1) multiple aspect-based summaries data가 부족하고, 2) 모델을 학습한다 해도 학습한 data의 pre-defined aspects에서만 제한적으로 작동한다는 점에서 쉽지 않은 task입니다. <br />본 논문은 이를 external knowledge sources를 활용하여 보완합니다. ConcepNet을 이용하여 일반적인 summry dataset을 복수개의 Aspect-based Summary로 변환하여 데이터를 확보했고,주어진 aspect와 관련한 더 풍성한 정보를 모델에 전달하기 위해 Wikipedia를 활용합니다. 이러한 방식으로 pretraining model(BART)을 fine-tuning함으로, 적은 데이터로 arbitrary aspect에 대해서도  우수한 성능을 보였습니다. | Aspect-based,<br />Knowlege-rich                             |
+| 2020<br /><br />Technique         | <a name="Any_Aspects"></a>[Summarizing Text on Any Aspects: A Knowledge-Informed Weakly-Supervised Approach](https://arxiv.org/abs/2010.06792) ([Code](https://github.com/tanyuqian/aspect-based-summarization))<br />*Bowen Tan, Lianhui Qin, Eric P. Xing, Zhiting Hu / EMNLP 2020*<br /><br />![image-20210109063052942](images/image-20210109063052942.png) <br />Aspect-based summarization는 1) multiple aspect-based summaries data가 부족하고, 2) 모델을 학습한다 해도 학습한 data의 pre-defined aspects에서만 제한적으로 작동한다는 점에서 쉽지 않은 task입니다. <br />본 논문은 이 문제를 해결하기 위해 external knowledge sources를 활용합니다. <br />- generic summary를 multiple aspect-based summaries로 변환하기 위해 우선 generic summary에서 추출한 entity를 seed삼아 ConcepNet에서 그 이웃 entities까지 추출합니다. 이렇게 추출한 entity들을 하나의 aspect로 간주합니다. 그리고 이 entity 각각을 한 번 더 ConcepNet에 넣어 주위 entity들을 추출하고 이들이 포함된 generic summary 내 문장을 추출하고 concat하여 이를 해당 entity(aspect)에 대한 summary로 간주합니다.<br />-  주어진 aspect와 관련한 더 풍성한 정보를 모델에 전달하기 위해 Wikipedia를 활용합니다. 구체적으로는 해당 aspect에 해당하는 Wikipedia 페이지에 등장하는 단어들을 모델에 input으로 aspect와 함께 넣어줍니다. <br />이러한 방식으로 pretraining model(BART)을 fine-tuning함으로, 적은 데이터로 arbitrary aspect에 대해서도  우수한 성능을 보였습니다. | Aspect-based,<br />Knowlege-rich                             |
 | 2020<br /><br />Review            | [**What Have We Achieved on Text Summarization?**](https://arxiv.org/abs/2010.04529)<br />*Dandan Huang, Leyang Cui, Sen Yang, Guangsheng Bao, Kun Wang, Jun Xie, Yue Zhang / EMNLP 2020*  <br /><br />ROUGE score뿐만 아니라 Accuracy 및 Fluency 관련 8 metrics(PolyTope)에 따라 10개의 대표적인 text summarizers를 평가합니다. 그 결과를 요약해보자면, <br />- 대체적으로 유사한 세팅 하에서는 abs모델보다 **ext모델**이 더 좋은 성능을 보임<br />- Sentence representation을 생성하기 위한 **transformer와 같은 더 복잡한 구조**가 duplication 문제 말고는 크게 도움이 안됨<br />- **Pointer-Generator**는 Inaccuracy Intrinsic 뿐만 아니라 추출/생성을 적절히 혼합하여 Duplication 문제에도 효과적. **Coverage**는 Duplication은 감소시키나, 동시에 Addition과 Inaccuracy Intrinsic error를 증가시키는 한계 <br />- ext후 abs하는 **hybrid 모델**은 원문의 일부(extracted snippets)을 통해 요약을 생성해내기에 recall은 좋지만 Inaccuracy error에 문제가 있을 수 있음<br />- BART가 킹왕짱. encoder only 모델인 BertSumExtAbs에 비해 encoder-decoder 모델인 BART가훨씬 뛰어난 성능을 보인 것은 입력에 대한 이해 및 생성을 모두 pretraining하는 것이 content selection과 combination에 아주 유용함을 시사함. 동시에 대부분의 abs 모델이 앞쪽 문장만 집중하는데 반해 BART가 원문 전반을 모두 보고 있다는 점은 pretraing 시 sentence shuffling의 효과로 보임<br />![image-20210109062449344](images/image-20210109062449344.png)<br /><br />- [Review] [허훈](https://github.com/kakaobrain/nlp-paper-reading/blob/master/notes/summarization_achievement.md) |                                                              |
 
 <br>
@@ -300,6 +312,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 - [KoreaUniv DMQA](http://dmqm.korea.ac.kr/activity/seminar)
 - [neulab/Text-Summarization-Papers](https://github.com/neulab/Text-Summarization-Papers)
   - [Modern History for Text Summarization](http://pfliu.com/Historiography/summarization/summ-eng.html)
+- [mathsyouth/awesome-text-summarization](https://github.com/mathsyouth/awesome-text-summarization)
 
 <br>
 
@@ -378,6 +391,6 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
   - [10 must-read papers for neural **extractive** summarization](http://pfliu.com/pl-summarization/summ_paper_gen-ext.html)
   - [10 must-read papers for neural **abstractive** summarization](http://pfliu.com/pl-summarization/summ_paper_gen-abs.html)
 - [icoxfog417/awesome-text-summarization](https://github.com/icoxfog417/awesome-text-summarization)
-
 - [KaiyuanGao/awesome-deeplearning-nlp-papers](https://github.com/KaiyuanGao/awesome-deeplearning-nlp-papers)
+- [mathsyouth/awesome-text-summarization](https://github.com/mathsyouth/awesome-text-summarization)
 
