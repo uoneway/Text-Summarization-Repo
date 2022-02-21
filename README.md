@@ -1,26 +1,26 @@
 # Text Summarization Repo
-NLP 중에서도 텍스트 요약 관련 다양한 자료를 축적해나가는 공간입니다. 텍스트 요약 분야에 관심 있어 공부를 시작하시는 분들께 좋은 길잡이가 되면 좋겠습니다.
+NLP 중에서도 텍스트 요약 분야와 관련한 양질의 자료를 축적해나가는 공간입니다. 텍스트 요약 분야에 관심 있어 공부를 시작하시는 분들께 좋은 길잡이가 되면 좋겠습니다.
 
-우선은 텍스트 요약 분야의 분류, 주요 연구주제 등 이 분야를 공부하기 전에 알아둬야 할 필수 지식들을 정리했습니다. 그리고 이 분야 흐름을 이해하기 위해 필수적으로 읽어야 할 논문들과, 한국어/영어 요약 모델을 구성하기 위해 이용할 수 있는 Data와 Pre-trained Model, 이들을 이해하기 위해 참고할만한 양질의 자료들을 목록화 했습니다.
+우선은 텍스트 요약 분야가 어떤 세부 주제들로 구성되어 있는지를 이해하고, 이 분야를 이끌어온 주요 논문들을 살펴봅니다.
+그 이후에는 직접 텍스트 요약 모델을 만드는데 필요한 코드, 데이터셋, 프리트레인 모델 등을 목록화 하였습니다.
 
   * [Intro to Text Summarization](#intro-to-text-summarization)
       * [Definition](#definition)
       * [Task Categories](#task-categories)
       * [Main Topics](#main-topics)
       * [Prerequisite](#prerequisite)
-  * [Resources](#resources)
+  * [Papers](#papers)
     + [Must-read Papers](#must-read-papers)
     + [SOTA & Latest Research List](#sota--latest-research-list)
-  * [Data & Pre-trained Models](#data--pre-trained-models)
-    + [Korean](#korean)
-      - [Datasets](#datasets)
-      - [Pre-trained Models](#pre-trained-models)
-    + [English / Multilingual](#english--multilingual)
-      - [Datasets](#datasets-1)
+  * [Resources](#resources)
+    * [Code / Examples](#code--examples)
+    * [Datasets](#datasets)
+    * [Pre-trained Models](#pre-trained-models)
+    
   * [Others](#others)
     + [Services](#services)
     + [Resources](#resources-1)
-    + [Recommended Papers list](#recommended-papers-list)
+    + [Other Papers List](#other-papers-list)
 
 <br>
 
@@ -209,14 +209,14 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 <br>
 
-## Resources
+## Papers
 
 ### Must-read Papers
 
 | Year                              | Paper                                                        | Keywords                                                     |
 | :---------------------------------: | ------------------------------------------------------------ | :------------------------------------------------------------: |
 | 2004<br /><br />Model             | [**TextRank**: Bringing order into texts](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)<br />*R. Mihalcea, P. Tarau*<br /><br />추출요약 분야의 고전이자 지금도 활발하게 사용되고 있는 대표적인 요약모델입니다. 문서 내에서 중요한 sentence(즉 summary에 포함될만한)는 다른 sentence들과 높은 similarity를 가지고 있을 것이라는 가정 하에 구글 검색엔진의 초기 아이디어인 PageRank 알고리즘을 차용하는데요. 각 sentence가 문서 내 다른 sentence와 가지는 similarity를 recursive하게 계산하기 위해 sentence-level weighted graph를 구성하고, 이 weight가 높은 sentence를 summary에 포함합니다. <br />통계 기반 unsupervised learning 방식으로 별도의 학습 데이터 없이 추론이 가능하고, 알고리즘이 명확하여 이해가 쉽습니다. <br /><br />- [Library] [gensim.summarization](https://radimrehurek.com/gensim_3.8.3/auto_examples/tutorials/run_summarization.html#sphx-glr-auto-examples-tutorials-run-summarization-py)(3.x버전만 가능. 4.x버전에서 삭제),  [PyTextRank](https://github.com/DerwenAI/pytextrank)<br />- [이론/Code] [lovit. TextRank 를 이용한 키워드 추출과 핵심 문장 추출](https://lovit.github.io/nlp/2019/04/30/textrank/) | ext,<br />Graph-based(PageRank),<br />Unsupervised           |
-| 2019<br /><br />Model             | **BertSum**: [Text Summarization with Pretrained Encoders](https://arxiv.org/pdf/1908.08345.pdf) ([Official code](https://github.com/nlpyang/PreSumm))<br/>*Yang Liu, Mirella Lapata / EMNLP 2019*<br /><br />![BERTSUM_structure](images/BERTSUM_structure.PNG) Pre-trained BERT를 요약 task에 활용하려면 어떻게 해야할까요? <br />BertSum은 여러 sentence를 하나의 인풋으로 넣어주기 위해 매 문장 앞에 [CLS] 토큰을 삽입하고 interval segment embeddings을 추가한 변형 input embeddings을 제안합니다. <br />ext 모델은 BERT에 Transformer layers를 얹은 encoder 구조를, abs 모델은 ext 모델 위에 6-layer Transformer decoder를 얹은 encoder-decoder 모델을 사용합니다.<br /><br />- [Review] [이정훈(KoreaUniv DSBA)](https://www.youtube.com/watch?v=PQk9kr9dGu0)<br />- [Korean] [KoBertSum](https://github.com/uoneway/KoBertSum) | ext/abs, <br />BERT+transformer,<br />2-staged fine-tuning   |
+| 2019<br /><br />Model | <a name="BERTSUM"></a>**BertSum**: [Text Summarization with Pretrained Encoders](https://arxiv.org/pdf/1908.08345.pdf) ([Official code](https://github.com/nlpyang/PreSumm))<br/>*Yang Liu, Mirella Lapata / EMNLP 2019*<br /><br />![BERTSUM_structure](images/BERTSUM_structure.PNG) Pre-trained BERT를 요약 task에 활용하려면 어떻게 해야할까요? <br />BertSum은 여러 sentence를 하나의 인풋으로 넣어주기 위해 매 문장 앞에 [CLS] 토큰을 삽입하고 interval segment embeddings을 추가한 변형 input embeddings을 제안합니다. <br />ext 모델은 BERT에 Transformer layers를 얹은 encoder 구조를, abs 모델은 ext 모델 위에 6-layer Transformer decoder를 얹은 encoder-decoder 모델을 사용합니다.<br /><br />- [Review] [이정훈(KoreaUniv DSBA)](https://www.youtube.com/watch?v=PQk9kr9dGu0)<br />- [Korean] [KoBertSum](https://github.com/uoneway/KoBertSum) | ext/abs, <br />BERT+transformer,<br />2-staged fine-tuning   |
 | 2019<br /><br />Pretraining Model | <a name="BART"></a>[**BART**: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://www.aclweb.org/anthology/2020.acl-main.703/) <br />*Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov, Luke Zettlemoyer / ACL 2020*<br /><br />![img](images/summarization.016.png) BERT는 bidirectional encoder로 generation task에 약하고, GPT는 auto-regressive한 model로 bidirectional한 정보를 얻지 못한다는 단점을 가집니다. <br />BART는 이들을 결합한 seq2seq 형태를 가짐으로 기존에 나왔던 다양한 denosing기법을 한 모델에서 실험해볼 수 있었습니다. 그 결과 Text infilling(text span을 하나의 mask token으로 바꿈)과 Sentence shuffling(문장 순서를 랜덤으로 섞음)을 동시에 적용함으로, 특히 summarization 분야에서 기 SOTA 모델을 훌쩍 뛰어넘는 성능을 보여줍니다.  <br /> <br />- [Korean] SKT T3K. **[KoBART](https://github.com/SKT-AI/KoBART)**<br />- [Review] [진명훈_영상](https://www.youtube.com/watch?v=VmYMnpDLPEo), [임연수_글](https://dladustn95.github.io/nlp/BART_paper_review/),  [Jiwung Hyun_글](https://medium.com/@kabbi159/acl-2020-bart-denoising-sequence-to-sequence-pre-training-for-natural-language-generation-7a0ae37109dc), | abs,<br />seq2seq,<br />Denoising autoencoder,<br />Text infilling |
 | 2020<br /><br />Model             | [**MatchSum**: Extractive Summarization as Text Matching](https://arxiv.org/abs/2004.08795) ([Official code](https://github.com/maszhongming/MatchSum))<br />*Ming Zhong, Pengfei Liu, Yiran Chen, Danqing Wang, Xipeng Qiu, Xuanjing Huang / ACL 2020*<br /><br />- [Review] [이유경(KoreaUniv DSBA)](https://www.youtube.com/watch?v=8E2Ia4Viu94&t=1582s) | ext                                                          |
 | 2020<br /><br />Technique         | <a name="Any_Aspects"></a>[Summarizing Text on Any Aspects: A Knowledge-Informed Weakly-Supervised Approach](https://arxiv.org/abs/2010.06792) ([Official code](https://github.com/tanyuqian/aspect-based-summarization))<br />*Bowen Tan, Lianhui Qin, Eric P. Xing, Zhiting Hu / EMNLP 2020*<br /><br />![image-20210109063052942](images/image-20210109063052942.png) <br />Aspect-based summarization는 1) multiple aspect-based summaries data가 부족하고, 2) 모델을 학습한다 해도 학습한 data의 pre-defined aspects에서만 제한적으로 작동한다는 점에서 쉽지 않은 task입니다. <br />본 논문은 이 문제를 해결하기 위해 external knowledge sources를 활용합니다. <br />- generic summary를 multiple aspect-based summaries로 변환하기 위해 크게 두 단계를 거칩니다. 우선 aspect 수를 늘려주기 위해 generic summary에서 추출한 entity를 seed삼아 ConcepNet에서 그 이웃 entities까지 추출하고 이들 각각을 하나의 aspect로 간주합니다. 이 각각의 aspect에 대한 psedo summary를 만들어내기 위해 다시 ConcepNet을 이용하는데요. ConcepNet에서 해당 aspect와 연결된 주위 entity를 추출하고, generic summary 내에서 이들이 포함되어 있는 문장만 추출하여 concat합니다. 이를 해당 entity(aspect)에 대한 summary로 간주합니다.<br />-  주어진 aspect와 관련한 더 풍성한 정보를 모델에 전달하기 위해 Wikipedia를 활용합니다. 구체적으로는 해당 문서 내에서 등장하는 단어 중, 문서 내 TF-IDF 점수가 높으면서 동시에 해당 aspect에 해당하는 Wikipedia 페이지에 등장하는 10개 이하의 단어목록을 모델 input으로 aspect와 함께 넣어줍니다. <br />이러한 방식으로 pretraining model(BART)을 fine-tuning함으로, 적은 데이터로 arbitrary aspect에 대해서도  우수한 성능을 보였습니다. | Aspect-based,<br />Knowlege-rich                             |
@@ -242,7 +242,24 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 <br>
 
-## Data & Pre-trained Models
+## Resources
+
+실제로 요약 모델을 만들고 실습하는데 필요한 코드, 데이터, 프리트레인 모델을 정리했습니다.
+한국어 자료 위주이며, 영어 관련 자료는 상기 [Papers](#papers) 항목에서 각 논문의 code 부분을 참고해주세요
+
+### Code / Examples
+
+- 알라꿍달라꿍- [2021 Dialogue Summary Competition](https://github.com/cosmoquester/2021-dialogue-summary-competition)
+  - [2021 훈민정음 한국어 음성•자연어 인공지능 경진대회](http://aihub-competition.or.kr/hangeul) 대화요약 부문 1등 솔루션
+  - Pretrain([BART](#BART)) + R3F + RL(target Metric을 직접 loss랑 align)
+- SKT_AI- [KoBART](https://github.com/SKT-AI/KoBART)
+  - 40GB 이상의 한국어 텍스트에 대해서 학습한 한국어 [BART](#BART) 모델
+- uoneway- [KoBertSum](https://github.com/uoneway/KoBertSum/tree/develop)
+  - [BertSum](#BERTSUM) 모델을 한국어 데이터에 적용할 수 있도록 수정한 한국어 요약 모델
+  - Pre-trained BERT로 [kykim/bert-kor-base](https://huggingface.co/kykim/bert-kor-base/blob/main/config.json), [monologg/kobert](https://huggingface.co/monologg/kobert/blob/main/config.json)등을 지원
+  - hydra로 parameter 조정 가능
+
+### Datasets
 
 아래 사용한 약자의 의미는 다음과 같습니다.
 
@@ -254,13 +271,11 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 <br>
 
-### Korean
-
-#### Datasets
+#### Korean
 
 | Dataset                                                      | Domain / Length                                              | Volume<br />(pair)                | License                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------- | ------------------------------------------------------------ |
-| [**모두의 말뭉치-문서 요약 말뭉치**](https://corpus.korean.go.kr/)<br />짧은 뉴스 본문에 대한 제목, 3문장 abs 및 ext summay 제공.<br /> id로 모두의말뭉치-신문 말뭉치와 결합하면 소제목, media, date, topic 관련 추가 정보를 얻을 수 있음 | 뉴스<br />\- origin → 3s(abs); 3s(ext)                       | 13,167                            | 국립국어원<br />(개별 약정)                                  |
+| [**모두의 말뭉치-문서 요약 말뭉치**](https://corpus.korean.go.kr/)<br />짧은 뉴스 본문에 대한 제목, 3문장 abs 및 ext summay 제공<br /> id로 모두의말뭉치-신문 말뭉치와 결합하면 소제목, media, date, topic 관련 추가 정보를 얻을 수 있음 | 뉴스<br />\- origin → 3s(abs); 3s(ext)                       | 13,167                            | 국립국어원<br />(개별 약정)                                  |
 | [**AIHub-문서요약 텍스트**](https://aihub.or.kr/aidata/8054)<br />신문기사, 기고문, 잡지기사, 법원판결문에 대한 abs 및 ext summay 제공<br /><br />- [EDA] [데이터 EDA 노트북](https://github.com/uoneway/KoBertSum/blob/master/tutorials/EDA.ipynb)<br />- [한국어 문서 추출요약](https://dacon.io/competitions/official/235671/overview/) 및 [생성요약 AI 경진대회](https://dacon.io/competitions/official/235673/overview/)(~ 20.12.09)에서 사용 | - 신문기사 30만, 기고문 6만, 잡지기사 1만, 법원 판결문 3만<br />\- 13s/214w → 1s/26w(abs); 3s/55w(ext) | 400,000                           | AIHub<br />(개별 약정)                                       |
 | [**AIHub-논문자료 요약**](https://aihub.or.kr/aidata/30712)<br />학술논문과 특허명세서에 대해 전체 및 섹션별 abs summary 제공 | - 학술논문, 특허명세서<br />- origin → abs                   | 350,000                           | AIHub<br />(개별 약정)                                       |
 | [**AIHub-도서자료 요약**](https://aihub.or.kr/aidata/30713)<br />다양한 주제의 한국어 도서 원문에 대한 abs summary 제공 | - 보건사회, 생명, 조세, 환경, 지역사회 개발, 무역, 경제, 노동 등<br />- 300-1000자 원문 → abs | 200,000                           | AIHub<br />(개별 약정)                                       |
@@ -270,7 +285,22 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 <br>
 
-#### Pre-trained Models
+#### English / Multilingual
+
+- [TensorFlow Datasets](https://www.tensorflow.org/datasets/catalog/cnn_dailymail): 다양한 요약 관련 데이터셋을 예시와 함께 확인할 수 있습니다.
+- [기타 요약 관련 영어 데이터셋  목록](http://pfliu.com/pl-summarization/summ_data.html): domain, task, paper 등
+
+| Dataset                                                      | Domain / Length                                              |         Volume         |                           License                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | :--------------------: | :----------------------------------------------------------: |
+| **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />ACL(computational linguistics, NLP) research papers에 대한 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공<br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w(논문abstract) ; 2s(citation); 151w(abs) |    1,000(abs/ ext)     | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
+| **[LongSumm](https://github.com/guyfe/LongSumm)**<br />NLP 및 ML 분야 Research paper에 대한 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext) 제공<br /><br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- origin → 100s/1,500w(abs); 30s/ 990w(ext) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
+| **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w |        600(abs)        | 개별약정 필요([a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 송부) |
+| [**Global Voices**: Crossing Borders in Automatic News Summarization (2019)](http://opus.nlpl.eu/GlobalVoices.php)<br /><br />- [Paper](https://www.aclweb.org/anthology/D19-5411.pdf) | - 뉴스<br />- 359w→ 51w                                      |                        |                                                              |
+| <a name="mlsum"></a>[**MLSUM**: The Multilingual Summarization Corpus](https://github.com/recitalAI/MLSUM)<br />CNN/Daily Mail dataset과 유사하게 news articles 내 highlights/description을 summary로 간주하여 English, French, German, Spanish, Russian,Turkish에 대한 summary dataset을 구축 <br /><br />- [Paper](https://www.aclweb.org/anthology/2020.emnlp-main.647), [이용(huggingface)](https://github.com/huggingface/datasets/tree/master/datasets/mlsum) | - 뉴스<br />- 790w→ 56w<br />(en 기준)                       |       1.5M(abs)        |            non-commercial research purposes only             |
+
+<br>
+
+### Pre-trained Models
 
 | Model                                                        | Pre-training                                                 | Usage                                                        | License                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------- |
@@ -283,24 +313,6 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 - 기타
   - https://github.com/snunlp/KR-BERT
   - https://github.com/tbai2019/HanBert-54k-N
-
-<br>
-
-### English / Multilingual
-
-#### Datasets
-
-- [TensorFlow Datasets](https://www.tensorflow.org/datasets/catalog/cnn_dailymail): 다양한 요약 관련 데이터셋을 예시와 함께 확인할 수 있습니다.
-- [기타 요약 관련 영어 데이터셋  목록](http://pfliu.com/pl-summarization/summ_data.html): domain, task, paper 등
-
-| Dataset                                                      | Domain / Length                                              |         Volume         |                           License                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | :--------------------: | :----------------------------------------------------------: |
-| **[ScisummNet](https://cs.stanford.edu/~myasu/projects/scisumm_net/)**([paper](https://arxiv.org/abs/1909.01716))<br />ACL(computational linguistics, NLP) research papers에 대한 세 가지 유형의 summary(논문 abstract, collection of citation sentences, human summary) 제공<br /><br />- CL-SciSumm 2019-Task2([repo](https://github.com/WING-NUS/scisumm-corpus), [paper](https://arxiv.org/abs/1907.09854))<br />- [CL-SciSumm @ EMNLP 2020-Task2](https://ornlcda.github.io/SDProc/sharedtasks.html#clscisumm)([repo](https://github.com/WING-NUS/scisumm-corpus)) | - Research paper<br />(computational linguistics, NLP)<br />- 4,417w → 110w(논문abstract) ; 2s(citation); 151w(abs) |    1,000(abs/ ext)     | [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/legalcode) |
-| **[LongSumm](https://github.com/guyfe/LongSumm)**<br />NLP 및 ML 분야 Research paper에 대한 상대적으로 장문의 summary(관련 blog posts 기반 abs, 관련 conferences videos talks 기반 ext) 제공<br /><br /><br />- [LongSumm 2020@EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#longsumm)<br />- [LongSumm 2021@ NAACL 2021](https://sdproc.org/2021/sharedtasks.html#longsumm) | - Research paper(NLP, ML)<br />- origin → 100s/1,500w(abs); 30s/ 990w(ext) | 700(abs) +  1,705(ext) | [Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
-| **[CL-LaySumm](https://github.com/WING-NUS/scisumm-corpus/blob/master/README_Laysumm.md)**<br />NLP 및 ML 분야 Research paper에 대해 비전문가를 위한 쉬운(lay) summary 제공<br /><br />- [CL-LaySumm @ EMNLP 2020](https://ornlcda.github.io/SDProc/sharedtasks.html#laysumm) | - Research paper(epilepsy, archeology, materials engineering)<br />- origin → 70~100w |        600(abs)        | 개별약정 필요([a.dewaard@elsevier.com](mailto:a.dewaard@elsevier.com) 로 이메일을 송부) |
-| [**Global Voices**: Crossing Borders in Automatic News Summarization (2019)](http://opus.nlpl.eu/GlobalVoices.php)<br /><br />- [Paper](https://www.aclweb.org/anthology/D19-5411.pdf) | - 뉴스<br />- 359w→ 51w                                      |                        |                                                              |
-| <a name="mlsum"></a>[**MLSUM**: The Multilingual Summarization Corpus](https://github.com/recitalAI/MLSUM)<br />CNN/Daily Mail dataset과 유사하게 news articles 내 highlights/description을 summary로 간주하여 English, French, German, Spanish, Russian,Turkish에 대한 summary dataset을 구축 <br /><br />- [Paper](https://www.aclweb.org/anthology/2020.emnlp-main.647), [이용(huggingface)](https://github.com/huggingface/datasets/tree/master/datasets/mlsum) | - 뉴스<br />- 790w→ 56w<br />(en 기준)                       |       1.5M(abs)        |            non-commercial research purposes only             |
-|                                                              |                                                              |                        |                                                              |
 
 <br>
 
@@ -324,7 +336,7 @@ Text Summarization 분야의 주요 연구주제를 살펴보고 이 분야에 �
 
 <br>
 
-### Recommended Papers list
+### Other Papers List
 
 #### Review
 
